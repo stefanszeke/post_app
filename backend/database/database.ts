@@ -1,29 +1,19 @@
 import mysql from "mysql2";
 import dotenv from "dotenv";
+import AppService from "../services/appService";
 dotenv.config();
 
-const dockerConnection = {
-  host: 'localhost',
-  database: 'post_app',
-  user: 'admin',
-  password: 'admin',
-  port: 3398
-}
+
 
 
 
 export class Database {
   private static instance: Database;
-  public readonly connection: mysql.Connection;
+  public readonly connection: mysql.Pool;
 
   private constructor() {
-    this.connection = mysql.createConnection(dockerConnection);
-    this.connection.connect((error) => {
-      if (error) { console.log(error); return; }
-    
-      console.log(`Database status: connected`)
-    })
-   }
+    this.connection = mysql.createPool(AppService.getConnection());
+  }
 
   public static getInstance(): Database {
     if (!Database.instance) {

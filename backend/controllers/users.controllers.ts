@@ -25,6 +25,7 @@ export const register = async (req: Request, res: Response) => {
 export const login = async (req: Request, res: Response) => {
   const {email, password} = req.body;
 
+  // input validation
   const user = await AppService.loginValidation(res, {email, password});
   if(!user) return;
   

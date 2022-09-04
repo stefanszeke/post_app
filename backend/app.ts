@@ -1,5 +1,6 @@
 import express from 'express';
 import { usersRouter } from "./routes/users";
+import { postsRouter } from "./routes/posts";
 
 // express setup
 const app = express();
@@ -7,6 +8,7 @@ app.use(express.json());
 
 // routes
 app.use('/api/users', usersRouter);
+app.use('/api/posts', postsRouter);
 
 app.get('/', (req, res) => {
   res.send('Hello World!');

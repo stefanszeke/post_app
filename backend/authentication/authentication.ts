@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-
+import { Request, Response, NextFunction } from 'express';
 
 export default class Authentication {
   public static generateToken = (user: any) => {
@@ -10,7 +10,7 @@ export default class Authentication {
     return jwt.sign(payload, secret, options);
   }
 
-  public static isAuth = (req: any, res: any, next: any) => {
+  public static isAuth = (req: Request, res: Response, next: NextFunction) => {
     // Get token from header
     const authorization = req.headers.authorization;
 
@@ -23,7 +23,7 @@ export default class Authentication {
         // Token is invalid:
         if (err) { res.status(401).send({ message: 'Invalid Token' }) }
         // Token is valid:
-        else { req.user = decode; next()}
+        else { req.body.userId = decode.id; next()}
       });
 
     } else { res.status(401).send({ message: 'No Token' }) }
