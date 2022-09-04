@@ -1,0 +1,27 @@
+version: '3.8'
+
+services:
+
+  postDB:
+    image: mysql:8.0
+    container_name: postDB
+    volumes:
+      - ./backend/database/post_app_posts.sql:/docker-entrypoint-initdb.d/post_app_posts.sql
+      - ./backend/database/post_app_users.sql:/docker-entrypoint-initdb.d/post_app_users.sql
+
+    environment:
+      MYSQL_ROOT_PASSWORD: "admin"
+      MYSQL_DATABASE: "post_app"
+      MYSQL_USER: "admin"
+      MYSQL_PASSWORD: "admin"
+    ports:
+      - "3398:3306"
+
+  adminer:
+    image: adminer:4.8.1
+    container_name: postDBAdminer
+    ports:
+      - 8098:8080
+
+    depends_on:
+      - postDB
