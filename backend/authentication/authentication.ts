@@ -23,7 +23,7 @@ export default class Authentication {
         // Token is invalid:
         if (err) { res.status(401).send({ message: 'Invalid Token' }) }
         // Token is valid:
-        else { req.body.userId = decode.id; next()}
+        else { req.body.user_id = decode.id; next()}
       });
 
     } else { res.status(401).send({ message: 'No Token' }) }

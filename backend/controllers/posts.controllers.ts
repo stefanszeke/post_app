@@ -1,18 +1,20 @@
 import { Request, Response } from "express";
 import { Database } from "../database/database";
 
-// export const makePost = async (req: Request, res: Response) => {
-//   const {title, text, userId} = req.body;
+export const makePost = async (req: Request, res: Response) => {
+  const {title, text, user_id} = req.body;
 
-//   const post = {
-//     title,
-//     text,
-//     score: 0,
-//     timestamp: new Date().
-//   };
-//   await Database.useMySql("INSERT INTO posts SET ?", post);
-//   res.json({message: "Post created"});
-// }
+  const post = {
+    title,
+    text,
+    user_id,
+    score: 0,
+    timestamp: Date.now()
+  };
+
+  await Database.useMySql("INSERT INTO posts SET ?", post);
+  res.json({message: "Post created"});
+}
 
 
 
