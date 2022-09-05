@@ -9,6 +9,7 @@ to run docker: </br >
 run `docker-compose up -d` from root </br >
 in subsequent runs just run `docker-compose start` </br >
 or `docker-compose stop` to stop the container </br >
+(on windows: make sure docker desktop is running)
 
 </br >
 
