@@ -1,10 +1,12 @@
 import express from 'express';
 import { usersRouter } from "./routes/users";
 import { postsRouter } from "./routes/posts";
+import cors from 'cors';
 
 // express setup
 const app = express();
 app.use(express.json());
+app.use(cors());
 
 // routes
 app.use('/api/users', usersRouter);

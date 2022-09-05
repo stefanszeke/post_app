@@ -19,9 +19,8 @@ export const makePost = async (req: Request, res: Response) => {
 
 
 export const getPosts = async (req: Request, res: Response) => {
-  const posts = await Database.useMySql("SELECT * FROM posts");
-
-  console.log(req.body.userId)
+  let getPostWithUsers = `SELECT posts.id, posts.title, posts.text, posts.score, posts.timestamp, users.name as user, users.country FROM posts JOIN users ON (posts.user_id = users.id);`
+  const posts = await Database.useMySql(getPostWithUsers);
 
   res.json(posts);
 }

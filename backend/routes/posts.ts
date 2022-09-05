@@ -4,7 +4,7 @@ import Authentication from "../authentication/authentication";
 
 export const postsRouter = router()
 
-postsRouter.get('/', Authentication.isAuth , postsControllers.getPosts ); 
+postsRouter.get('/', postsControllers.getPosts ); 
 
 postsRouter.post('/', Authentication.isAuth , postsControllers.makePost ); 
 
