@@ -1,0 +1,43 @@
+<div>
+
+  <form class="form register" [formGroup]="registerForm">
+
+    <div>
+      <label for="name">Name</label>
+      <input type="text" formControlName="name">
+    </div>
+
+    <div>
+      <label for="email">e-mail</label>
+      <input type="email" formControlName="email">
+    </div>
+
+    <div>
+      <label for="country">Country</label>
+      <select class="custom-select" formControlName="country">
+        <option disabled>Choose Country</option>
+        <option *ngFor="let country of countries" [ngValue]="country.name">
+          {{country.name}}
+        </option>
+      </select>
+    </div>
+
+    <div>
+      <label for="password">Password</label>
+      <input type="password" formControlName="password">
+    </div>
+    
+    <div>
+      <label for="confirm">Confirm Password</label>
+      <input type="password" formControlName="confirm">
+    </div>
+
+    <div>
+      <button (click)="register()">register</button>
+    </div>
+
+  </form>
+
+  {{message}}
+
+</div>

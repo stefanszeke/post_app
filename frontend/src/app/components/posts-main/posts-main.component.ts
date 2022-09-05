@@ -14,7 +14,7 @@ export class PostsMainComponent implements OnInit {
   constructor(private apiService: ApiService) { }
 
   ngOnInit(): void {
-    this.apiService.getPosts().subscribe(res => { this.posts = res; console.log(res) });
+    this.apiService.getPosts().subscribe(res => { this.posts = res });
   }
 
 }

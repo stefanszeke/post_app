@@ -31,5 +31,5 @@ export const login = async (req: Request, res: Response) => {
   
   // generate and send token
   const token = Authentication.generateToken(user);
-  res.json(token);
+  res.json({token,name: user.name, message: "User logged in"});
 }
