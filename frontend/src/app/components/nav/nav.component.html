@@ -1,8 +1,10 @@
-<p>nav works!</p>
+<p>{{name$ | async}}</p>
 
 <nav>
   <a [routerLink]="['']">home</a>
-  <a [routerLink]="['register']">register</a>
-  <a [routerLink]="['login']">login</a>
-  <a (click)="logout()">logOUT</a>
+  <a *ngIf="!(isLoggedIn$ | async)" [routerLink]="['register']">register</a>
+  <a *ngIf="!(isLoggedIn$ | async)" [routerLink]="['login']">login</a>
+  <a *ngIf="(isLoggedIn$ | async)"(click)="logout()">logout</a>
 </nav>
+
+<p>logged in: {{isLoggedIn$ | async}}</p>
