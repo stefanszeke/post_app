@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { COUNTRIES } from "src/app/countries";
 import { ApiService } from "src/app/services/api.service";
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-register',
@@ -13,7 +14,7 @@ export class RegisterComponent implements OnInit {
   countries = COUNTRIES;
   message: string =''
 
-  constructor(private formBuilder: FormBuilder, private apiService: ApiService) {
+  constructor(private formBuilder: FormBuilder, private apiService: ApiService, private router: Router) {
     this.registerForm = this.formBuilder.group({
       name: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
@@ -35,6 +36,7 @@ export class RegisterComponent implements OnInit {
       this.message = res.message;
       if(res.message === "User created") {
         this.registerForm.reset();
+        this.router.navigate(['/login'], { queryParams: { registered: true } });
       }
     })
 

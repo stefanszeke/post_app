@@ -4,13 +4,7 @@ import { Database } from "../database/database";
 export const makePost = async (req: Request, res: Response) => {
   const {title, text, user_id} = req.body;
 
-  const post = {
-    title,
-    text,
-    user_id,
-    score: 0,
-    timestamp: Date.now()
-  };
+  const post = { title, text, user_id, score: 0, timestamp: Date.now()};
 
   await Database.useMySql("INSERT INTO posts SET ?", post);
   res.json({message: "Post created"});

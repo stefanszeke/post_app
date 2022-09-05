@@ -1,6 +1,7 @@
 import jwt from 'jsonwebtoken';
 import { Request, Response, NextFunction } from 'express';
 
+
 export default class Authentication {
   public static generateToken = (user: any) => {
     const payload = { id: user.id, name: user.name };
