@@ -4,6 +4,7 @@
   <a [routerLink]="['']">home</a>
   <a *ngIf="!(isLoggedIn$ | async)" [routerLink]="['register']">register</a>
   <a *ngIf="!(isLoggedIn$ | async)" [routerLink]="['login']">login</a>
+  <a *ngIf="(isLoggedIn$ | async)" [routerLink]="['post']">new post</a>
   <a *ngIf="(isLoggedIn$ | async)"(click)="logout()">logout</a>
 </nav>
 

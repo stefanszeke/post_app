@@ -35,7 +35,7 @@ export class LoginComponent implements OnInit {
     let val = this.loginForm.value;
     this.apiService.login(val).subscribe(res => {
       this.message = res.message;
-      console.log(res)
+      
       if(res.message === "User logged in") {
         localStorage.setItem('token', res.token);
         localStorage.setItem('name', res.name);

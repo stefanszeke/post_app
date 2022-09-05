@@ -1,0 +1,19 @@
+<form class="form post" [formGroup]="postForm">
+
+  <div>
+    <label for="title">Title</label>
+    <input type="text" formControlName="title">
+  </div>
+
+  <div>
+    <label for="text">Text</label>
+    <input type="text" formControlName="text">
+  </div>
+
+  <div>
+    <button (click)="submitPost()">submit</button>
+  </div>
+
+  {{message}}
+
+</form>

@@ -8,11 +8,13 @@ import { PostsMainComponent } from './components/posts-main/posts-main.component
 import { PostItemComponent } from './components/post-item/post-item.component';
 import { RegisterComponent } from './components/register/register.component';
 
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { LoginComponent } from './components/login/login.component';
 import { StoreModule } from '@ngrx/store';
 import { usersReducer } from "./store/users/users.reducers";
+import { PostFormComponent } from './components/post-form/post-form.component';
+import { AuthInterceptor } from "./http-interceptors/auth.interceptor";
 
 
 
@@ -23,7 +25,8 @@ import { usersReducer } from "./store/users/users.reducers";
     PostsMainComponent,
     PostItemComponent,
     RegisterComponent,
-    LoginComponent
+    LoginComponent,
+    PostFormComponent
   ],
   imports: [
     BrowserModule,
@@ -33,7 +36,7 @@ import { usersReducer } from "./store/users/users.reducers";
     ReactiveFormsModule,
     StoreModule.forRoot({users: usersReducer}, {})
   ],
-  providers: [],
+  providers: [{provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
