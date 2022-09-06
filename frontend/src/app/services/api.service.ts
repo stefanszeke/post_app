@@ -11,7 +11,8 @@ export class ApiService {
   options = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json'
-    })
+    }),
+    withCredentials: true
   };
 
   url = 'http://localhost:3700/api';

@@ -6,6 +6,7 @@ import { AppState } from "src/app/store/app.state";
 import * as UsersActions from "src/app/store/users/users.actions";
 import { Router } from '@angular/router';
 import { ActivatedRoute } from "@angular/router";
+import { CookieService } from "ngx-cookie-service";
 
 @Component({
   selector: 'app-login',
@@ -16,7 +17,7 @@ export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   message: string = '';
 
-  constructor(private formBuilder: FormBuilder, private apiService: ApiService, private store: Store<AppState>, private router: Router, private route: ActivatedRoute) {
+  constructor(private formBuilder: FormBuilder, private apiService: ApiService, private store: Store<AppState>, private router: Router, private route: ActivatedRoute, private cookieService: CookieService) {
     this.loginForm = this.formBuilder.group({
       email: ['', Validators.required],
       password: ['', Validators.required]
@@ -37,10 +38,9 @@ export class LoginComponent implements OnInit {
       this.message = res.message;
       
       if(res.message === "User logged in") {
-        localStorage.setItem('token', res.token);
-        localStorage.setItem('name', res.name);
 
-        this.store.dispatch(UsersActions.login({ name: res.name }));
+
+        this.store.dispatch(UsersActions.login({ name: this.cookieService.get('name') }));
         
         this.router.navigate(['/']);
       }

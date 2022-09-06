@@ -31,5 +31,8 @@ export const login = async (req: Request, res: Response) => {
   
   // generate and send token
   const token = Authentication.generateToken(user);
-  res.json({token,name: user.name, message: "User logged in"});
+  res.cookie("token", token, {maxAge: 3600000, sameSite: 'none', secure: true});
+  res.cookie("name", user.name, {maxAge: 3600000, sameSite: 'none', secure: true});
+  res.json({message: "User logged in"});
+  
 }

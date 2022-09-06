@@ -6,7 +6,7 @@ import cors from 'cors';
 // express setup
 const app = express();
 app.use(express.json());
-app.use(cors());
+app.use(cors({ origin: 'http://localhost:4200', credentials: true }));
 
 // routes
 app.use('/api/users', usersRouter);
