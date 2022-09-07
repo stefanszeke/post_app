@@ -10,8 +10,12 @@
     <input type="text" formControlName="text">
   </div>
 
-  <div>
+  <div *ngIf="!editMode">
     <button (click)="submitPost()">submit</button>
+  </div>
+
+  <div *ngIf="editMode">
+    <button (click)="editPost()">edit</button>
   </div>
 
   {{message}}

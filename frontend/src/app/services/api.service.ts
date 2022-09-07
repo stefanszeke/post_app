@@ -33,6 +33,14 @@ export class ApiService {
     return this.http.get<Post[]>(`${this.url}/posts`);
   }
 
+  getUserPosts(name: string):Observable<Post[]> {
+    return this.http.get<Post[]>(`${this.url}/posts/${name}`);
+  }
+
+  getPostById(name: string, id:number):Observable<Post> {
+    return this.http.get<Post>(`${this.url}/posts/${name}?id=${id}`);
+  }
+
   addPost(post: Post): Observable<any> {
     return this.http.post<Post>(`${this.url}/posts`, post, this.options);
   }

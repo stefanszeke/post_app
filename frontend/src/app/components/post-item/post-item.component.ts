@@ -1,5 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Post } from "../../models/post";
+import { Router } from "@angular/router";
+
 
 @Component({
   selector: 'app-post-item',
@@ -8,10 +10,13 @@ import { Post } from "../../models/post";
 })
 export class PostItemComponent implements OnInit {
   @Input() post!: Post;
+  @Input() editMode: boolean = false;
 
-  constructor() { }
+  constructor(private router: Router) { }
 
-  ngOnInit(): void {
+  ngOnInit(): void {}
+
+  goToEditPost() {
+    this.router.navigate(['/post'], { queryParams: { id: this.post.id } });
   }
-
 }

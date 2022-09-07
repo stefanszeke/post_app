@@ -6,7 +6,9 @@ export const postsRouter = router()
 
 postsRouter.get('/', postsControllers.getPosts ); 
 
-postsRouter.post('/', Authentication.isAuth , postsControllers.makePost ); 
+postsRouter.get('/:userName', Authentication.isAuth, postsControllers.getUserPosts ); 
+
+postsRouter.post('/', Authentication.isAuth, postsControllers.makePost ); 
 
 
 

@@ -6,6 +6,7 @@
   <a *ngIf="!(isLoggedIn$ | async)" [routerLink]="['login']">login</a>
   <a *ngIf="(isLoggedIn$ | async)" [routerLink]="['post']">new post</a>
   <a *ngIf="(isLoggedIn$ | async)"(click)="logout()">logout</a>
+  <a *ngIf="(isLoggedIn$ | async)" [routerLink]="['main']" [queryParams]="{userPosts: true}">my Posts</a>
 </nav>
 
 <p>logged in: {{isLoggedIn$ | async}}</p>
