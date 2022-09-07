@@ -1,12 +1,32 @@
-<p>{{name$ | async}}</p>
+<div class="wrapper">
 
-<nav>
-  <a [routerLink]="['']">home</a>
-  <a *ngIf="!(isLoggedIn$ | async)" [routerLink]="['register']">register</a>
-  <a *ngIf="!(isLoggedIn$ | async)" [routerLink]="['login']">login</a>
-  <a *ngIf="(isLoggedIn$ | async)" [routerLink]="['post']">new post</a>
-  <a *ngIf="(isLoggedIn$ | async)"(click)="logout()">logout</a>
-  <a *ngIf="(isLoggedIn$ | async)" [routerLink]="['main']" [queryParams]="{userPosts: true}">my Posts</a>
-</nav>
+  
+  <div class="box">
+    <h2>POST APP</h2>
+    <a [routerLink]="['']">home</a>
+  </div>
+
+  <div class="box name">
+    <p *ngIf="!(isLoggedIn$ | async)">not logged in</p>
+    <p>{{name$ | async}}</p>
+    <nav>
+      <a *ngIf="!(isLoggedIn$ | async)" [routerLink]="['register']">register</a>
+      <a *ngIf="!(isLoggedIn$ | async)" [routerLink]="['login']">login</a>
+      <a *ngIf="(isLoggedIn$ | async)"(click)="logout()">logout</a>
+    </nav>
+  </div>
+  
+
+  
+  <nav class="box" *ngIf="(isLoggedIn$ | async)">
+    <a [routerLink]="['main']" [queryParams]="{userPosts: true}">my Posts</a>
+    <a [routerLink]="['post']">new post</a>
+  </nav>
+
+</div>
+
+
+
+
 
 <p>logged in: {{isLoggedIn$ | async}}</p>

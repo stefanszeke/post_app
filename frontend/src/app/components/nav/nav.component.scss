@@ -1,6 +1,43 @@
+.wrapper {
+  display: grid;
+  justify-items: center;
+  gap: 5px;
+  color: white;
+}
+
 nav {
   display: grid;
   grid-auto-flow: column;
-  justify-content: start;
+  justify-content: center;
   gap: 10px;
+}
+
+.name {
+  padding: 0.5rem;
+  text-align: center;
+  a {
+    font-size: 0.8rem;
+    color: rgb(158, 148, 215);
+  }
+}
+
+.box {
+  display: grid;
+  justify-items: center;
+
+  padding: 5px;
+  background-color: rgb(38, 38, 38);
+  width: 100%;
+  border-radius: 4px;
+}
+
+
+
+a {
+  text-decoration: none;
+  color: white;
+  cursor: pointer;
+}
+a:hover {
+  filter: brightness(0.7);
 }

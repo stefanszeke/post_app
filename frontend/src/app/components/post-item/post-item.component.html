@@ -1,7 +1,12 @@
-<div>
+<div class="post">
 
-  <h2>{{post.title}}</h2>
-  <p>score: {{post.score}}, created by {{post.user}}, on {{post.timestamp | date: 'dd/MMM/yyyy'}}, from {{post.country}}</p>
+  <div class="title">
+    <h2>{{post.title}}</h2>
+    <p>{{post.timestamp | date: 'dd/MMM/yyyy'}}</p>
+  </div>
+  
+  <p>{{post.text}}</p>
+  <p>score: {{post.score}}, created by {{post.user}}, from {{post.country}}</p>
 
   <div *ngIf="editMode">
     <a (click)="goToEditPost()">edit</a>

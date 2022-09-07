@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from "@ngrx/store";
-import { iif, Observable } from "rxjs";
+import { Observable } from "rxjs";
 import { AppState } from "src/app/store/app.state";
 import * as UsersActions from "src/app/store/users/users.actions";
 import { CookieService } from "ngx-cookie-service";
+import { Router } from "@angular/router";
 
 @Component({
   selector: 'app-nav',
@@ -14,7 +15,7 @@ export class NavComponent implements OnInit {
   name$: Observable<string> = this.store.select(state => state.users.name);
   isLoggedIn$: Observable<boolean> = this.store.select(state => state.users.isLoggedIn);
 
-  constructor(private store: Store<AppState>, private cookieService: CookieService) { }
+  constructor(private store: Store<AppState>, private cookieService: CookieService, private router: Router) { }
 
   ngOnInit(): void {
     if(this.cookieService.check('token') && this.cookieService.check('name')) {
@@ -30,6 +31,6 @@ export class NavComponent implements OnInit {
   logout() {
     this.store.dispatch(UsersActions.logout());
     this.cookieService.deleteAll()
-    window.location.reload();
+    this.router.navigate(['/login']);
   }
 }

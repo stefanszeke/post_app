@@ -1,0 +1,18 @@
+.wrapper {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin: 30px auto;
+  max-width: 700px;
+}
+
+main {
+  width: 400px;
+}
+
+.nav {
+  position: sticky;
+  top: 30px;
+
+  display: grid;
+}

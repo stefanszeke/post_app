@@ -1,1 +1,22 @@
 /* You can add global styles to this file, and also import other style files */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.form {
+  display: grid;
+  margin: 0 auto;
+  width: 80%;
+
+  padding: 10px 30px;
+
+  border: 1px solid grey;
+  border-radius: 4px;
+
+  input,select, button  {
+    margin-bottom: 10px;
+  }
+}

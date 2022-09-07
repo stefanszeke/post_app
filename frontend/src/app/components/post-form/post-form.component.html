@@ -1,22 +1,14 @@
 <form class="form post" [formGroup]="postForm">
 
-  <div>
     <label for="title">Title</label>
     <input type="text" formControlName="title">
-  </div>
 
-  <div>
     <label for="text">Text</label>
     <input type="text" formControlName="text">
-  </div>
 
-  <div *ngIf="!editMode">
-    <button (click)="submitPost()">submit</button>
-  </div>
+    <button *ngIf="!editMode" (click)="submitPost()">submit</button>
 
-  <div *ngIf="editMode">
-    <button (click)="editPost()">edit</button>
-  </div>
+    <button *ngIf="editMode" (click)="editPost()">edit</button>
 
   {{message}}
 
