@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators, FormGroup } from "@angular/forms";
 import { ApiService } from "src/app/services/api.service";
+import { Router } from "@angular/router";
 import { ActivatedRoute } from "@angular/router";
 import { CookieService } from "ngx-cookie-service";
 
@@ -14,7 +15,7 @@ export class PostFormComponent implements OnInit {
   message: string = '';
   editMode: boolean = false;
 
-  constructor(private formBuilder: FormBuilder, private apiService: ApiService, private route: ActivatedRoute, private cookieService: CookieService) {
+  constructor(private formBuilder: FormBuilder, private apiService: ApiService, private route: ActivatedRoute, private cookieService: CookieService, private router: Router) {
     this.postForm = this.formBuilder.group({
       title: ['', Validators.required],
       text: ['', Validators.required]
@@ -23,7 +24,6 @@ export class PostFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
-      console.log(params);
       if(params['id']) {
         this.apiService.getPostById(this.cookieService.get('name'),params['id']).subscribe(res => {
           this.postForm.setValue({
@@ -49,7 +49,14 @@ export class PostFormComponent implements OnInit {
   }
 
   editPost() {
-    
+    this.route.queryParams.subscribe(params => {
+      let post = this.postForm.value;
+      this.apiService.updatePost(post,params['id']).subscribe(res => {
+        if(res.message === "Post updated") {
+          this.router.navigate(['/main'], { queryParams: {userPosts: true} });
+        }
+      })
+    });
   }
 
 }

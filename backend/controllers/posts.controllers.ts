@@ -36,3 +36,21 @@ export const getUserPosts = async (req: Request, res: Response) => {
   }
 
 }
+
+export const updatePost = async (req: Request, res: Response) => {
+  const {title, text, user_id} = req.body;
+  const id = req.params.id;
+
+  const post = { title, text };
+
+  await Database.useMySql("UPDATE posts SET ? WHERE id = ? and user_id = ?", [post, id, user_id]);
+  res.json({message: "Post updated"});
+}
+
+export const deletePost = async (req: Request, res: Response) => {
+  const id = req.params.id;
+  const user_id = req.body.user_id;
+
+  await Database.useMySql("DELETE FROM posts WHERE id = ? and user_id = ?", [id, user_id]);
+  res.json({message: "Post deleted"});
+}

@@ -44,4 +44,12 @@ export class ApiService {
   addPost(post: Post): Observable<any> {
     return this.http.post<Post>(`${this.url}/posts`, post, this.options);
   }
+
+  updatePost(update: Post, id: number): Observable<any> {
+    return this.http.patch<Post>(`${this.url}/posts/${id}`, update, this.options);
+  }
+
+  deletePost(id: number): Observable<any> {
+    return this.http.delete<Post>(`${this.url}/posts/${id}`, this.options);
+  }
 }

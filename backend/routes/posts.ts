@@ -10,5 +10,9 @@ postsRouter.get('/:userName', Authentication.isAuth, postsControllers.getUserPos
 
 postsRouter.post('/', Authentication.isAuth, postsControllers.makePost ); 
 
+postsRouter.patch('/:id', Authentication.isAuth, postsControllers.updatePost );
+
+postsRouter.delete('/:id', Authentication.isAuth, postsControllers.deletePost );
+
 
 
