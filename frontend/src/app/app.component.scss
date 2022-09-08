@@ -16,3 +16,25 @@ main {
 
   display: grid;
 }
+
+@media screen and (max-width: 900px) {
+  .wrapper {
+    grid-template-columns: none;
+    margin-top: 0;
+  }
+
+  main {
+    order: 1;
+    width: 90%;
+    margin: 5px auto;
+  }
+
+  nav {
+    position: sticky;
+    top: 0;
+    order: 0;
+  }
+
+
+}
+  
