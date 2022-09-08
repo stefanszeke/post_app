@@ -23,6 +23,8 @@ export class PostsMainComponent implements OnInit {
   upvoted$: Observable<string[]> = this.store.select(state => state.votes.upvoted)
   downvoted$: Observable<string[]> = this.store.select(state => state.votes.downvoted);
 
+  noPosts: string = ''
+
 
   constructor(private apiService: ApiService, private route: ActivatedRoute, private store: Store<AppState>) {}
 
@@ -54,6 +56,7 @@ export class PostsMainComponent implements OnInit {
         this.store.dispatch(PostsActions.requestPosts());
         this.editMode = false;
       }
+      this.checkIfNoPosts();
     })
   }
 
@@ -61,6 +64,20 @@ export class PostsMainComponent implements OnInit {
     this.apiService.getUserVotes().subscribe(res => {
       this.store.dispatch(VotesActions.getUpvoted({payload: res.upvoted}));
       this.store.dispatch(VotesActions.getDownvoted({payload: res.downvoted}));
+    })
+  }
+
+  checkIfNoPosts() {
+    this.posts$.subscribe(res => {
+      if(res.length === 0) {
+        if(this.editMode) {
+          this.noPosts = 'You have no posts'
+        } else {
+          this.noPosts = 'There are no posts'
+        }
+      } else {
+        this.noPosts = ''
+      }
     })
   }
 
