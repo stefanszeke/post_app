@@ -17,31 +17,35 @@ import * as VotesActions from "../../store/votes/votes.actions";
   styleUrls: ['./posts-main.component.scss']
 })
 export class PostsMainComponent implements OnInit {
-  posts$: Observable<Post[]>;
+  posts$: Observable<Post[]> = this.store.select(state => state.posts.posts);
   editMode:boolean = false;
   isLoggedIn$: Observable<boolean> = this.store.select(state => state.users.isLoggedIn);
-  upvoted$: Observable<string[]>
-  downvoted$: Observable<string[]>
+  upvoted$: Observable<string[]> = this.store.select(state => state.votes.upvoted)
+  downvoted$: Observable<string[]> = this.store.select(state => state.votes.downvoted);
 
 
-  constructor(private apiService: ApiService, private route: ActivatedRoute, private cookieService: CookieService, private router: Router, private store: Store<AppState>) {
-    this.posts$ = this.store.select(state => state.posts.posts);
-    this.upvoted$ = this.store.select(state => state.votes.upvoted);
-    this.downvoted$ = this.store.select(state => state.votes.downvoted);
-   }
+  constructor(private apiService: ApiService, private route: ActivatedRoute, private store: Store<AppState>) {}
 
   ngOnInit(): void {
     this.isLoggedIn$.subscribe(res => {
-      if(res) {
-        this.apiService.getUserVotes().subscribe(res => {
-        this.store.dispatch(VotesActions.getUpvoted({payload: res.upvoted}));
-        this.store.dispatch(VotesActions.getDownvoted({payload: res.downvoted}));
-        })
-
-      }
+      if(res) { this.getVotes() }
     })
-    
+    this.switchMode();
+  }
 
+  deletePost(id: number) {
+    this.apiService.deletePost(id).subscribe(res => {
+      if(res.message === "Post deleted") { this.switchMode() }
+    })
+  }
+
+  votePost(event:any) {
+    this.apiService.votePost(event.id,event.vote).subscribe(res => {
+      if(res.message === "Post voted") { this.switchMode(); this.getVotes() }
+    })
+  }
+
+  switchMode() {
     this.route.queryParams.subscribe(params => {
       if(params['userPosts']) {
         this.store.dispatch(PostsActions.requestUserPosts());
@@ -53,24 +57,10 @@ export class PostsMainComponent implements OnInit {
     })
   }
 
-  deletePost(id: number) {
-    this.apiService.deletePost(id).subscribe(res => {
-      if(res.message === "Post deleted") {
-        window.location.reload();
-      }
-    })
-  }
-
-  votePost(event:any) {
-    this.apiService.votePost(event.id,event.vote).subscribe(res => {
-      if(res.message === "Post voted") {
-        this.store.dispatch(PostsActions.requestPosts()); 
-        this.apiService.getUserVotes().subscribe(res => {
-          this.store.dispatch(VotesActions.getUpvoted({payload: res.upvoted}));
-          this.store.dispatch(VotesActions.getDownvoted({payload: res.downvoted}));
-          })
-        
-      }
+  getVotes() {
+    this.apiService.getUserVotes().subscribe(res => {
+      this.store.dispatch(VotesActions.getUpvoted({payload: res.upvoted}));
+      this.store.dispatch(VotesActions.getDownvoted({payload: res.downvoted}));
     })
   }
 
