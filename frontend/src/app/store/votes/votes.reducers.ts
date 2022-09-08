@@ -23,5 +23,6 @@ export const votesReducer = createReducer(
   on(VotesActions.requestVotes, state => ({ ...state, isLoading: true })),
   on(VotesActions.successUpVotes, (state, { payload }) => ({ ...state, upvotesAreLoading: false, upvoted: payload })),
   on(VotesActions.successDownVotes, (state, { payload }) => ({ ...state, downvotesAreLoading: false, downvoted: payload })),
-  on(VotesActions.failedVotes, (state, { error }) => ({ ...state, isLoading: false, error }))
+  on(VotesActions.failedVotes, (state, { error }) => ({ ...state, isLoading: false, error })),
+  on(VotesActions.clearVotes, state => ({ ...state, upvoted: [], downvoted: [] }))
 );

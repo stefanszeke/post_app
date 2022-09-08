@@ -19,3 +19,7 @@ export const successDownVotes = createAction(
   '[Posts Page] DownVotes Success',
   props<{ payload: string[] }>()
 );
+
+export const clearVotes = createAction(
+  '[Posts Page] Clear Votes'
+);

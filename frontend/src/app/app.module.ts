@@ -20,6 +20,7 @@ import { PostsEffects } from "./store/posts/posts.effects";
 import { postsReducer } from "./store/posts/posts.reducers";
 import { votesReducer } from "./store/votes/votes.reducers";
 import { VotesEffects } from "./store/votes/votes.effects";
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 
 
@@ -40,6 +41,7 @@ import { VotesEffects } from "./store/votes/votes.effects";
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
+    FontAwesomeModule,
     StoreModule.forRoot({users: usersReducer,posts: postsReducer, votes: votesReducer}, {}),
     EffectsModule.forRoot([PostsEffects, VotesEffects]),
   ],

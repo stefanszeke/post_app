@@ -6,6 +6,7 @@ import { Store } from "@ngrx/store";
 import { AppState } from "src/app/store/app.state";
 import { Observable } from "rxjs";
 
+import {faCircleUp, faCircleDown  } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-post-item',
@@ -21,6 +22,10 @@ export class PostItemComponent implements OnInit {
   @Output() onUpvotePost: EventEmitter<any> = new EventEmitter<any>();
 
   isLoggedIn$: Observable<boolean> = this.store.select(state => state.users.isLoggedIn);
+
+  faCircleUp = faCircleUp;
+  faCircleDown = faCircleDown;
+
 
   constructor(private router: Router, private apiService: ApiService, private store:Store<AppState>) { }
 

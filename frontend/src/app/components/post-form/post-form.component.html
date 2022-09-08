@@ -1,14 +1,18 @@
 <form class="form post" [formGroup]="postForm">
 
     <label for="title">Title</label>
-    <input type="text" formControlName="title">
+    <input type="text" formControlName="title" maxlength="40">
 
     <label for="text">Text</label>
-    <input type="text" formControlName="text">
+    <textarea type="text" formControlName="text" maxlength="250"></textarea>
 
     <button *ngIf="!editMode" (click)="submitPost()">submit</button>
 
     <button *ngIf="editMode" (click)="editPost()">edit</button>
+
+    <p [ngClass]="postForm.value.text.length < 250 ? 'green' : 'red' ">
+      character limit: {{postForm.value.text.length}}/250
+    </p>
 
   {{message}}
 

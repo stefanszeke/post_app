@@ -1,12 +1,35 @@
 .wrapper {
   display: grid;
-  grid-template-columns: 10% 1fr;
+  grid-template-columns: 8% 1fr;
 }
 
 .score {
   display: grid;
   place-items: center;
   align-content: center;
+  border: 1px solid grey;
+  border-radius: 4px;
+  margin-bottom: 10px;
+  margin-right: 5px;
+}
+
+.score h2 {
+  font-size: 1.5rem;
+}
+.score a {
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: 80ms;
+}
+
+.score a:hover {
+  transform: scale(1.2);
+}
+
+.disable-votes {
+  pointer-events: none;
+
+  filter: opacity(0.5);
 }
 
 .post {

@@ -1,9 +1,9 @@
 <div class="wrapper">
-
+  
   <div class="score">
-    <a *ngIf="(isLoggedIn$ | async)" (click)="upvote()" [class.upvoted]="classUp">up</a>
+    <a [class.disable-votes]="!(isLoggedIn$ | async)" (click)="upvote()" [class.upvoted]="classUp"><fa-icon [icon]="faCircleUp"></fa-icon></a>
     <h2>{{post.score}}</h2>
-    <a *ngIf="(isLoggedIn$ | async)" (click)="downvote()" [class.downvoted]="classDown">dw</a>
+    <a [class.disable-votes]="!(isLoggedIn$ | async)" (click)="downvote()" [class.downvoted]="classDown"><fa-icon [icon]="faCircleDown"></fa-icon></a>
   </div>
   
   <div class="post">

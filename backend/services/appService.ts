@@ -51,6 +51,13 @@ export default class AppService {
     return user[0];
   }
 
+  public static async postValidation(res: Response, input: any) {
+    if (!input.title || !input.text) { res.json({message: "Please fill all the fields"}); return false };
+    if (input.title.length > 40) { res.json({message: "Title too long"}); return false };
+    if (input.text.length > 250) { res.json({message: "Text too long"}); return false };
+    return true;
+  }
+
   public static getConnection() {
     if(process.env.NODE_ENV === 'development') return AppService.dockerConnection;
   }

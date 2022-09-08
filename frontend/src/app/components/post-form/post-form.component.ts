@@ -15,6 +15,7 @@ export class PostFormComponent implements OnInit {
   message: string = '';
   editMode: boolean = false;
 
+
   constructor(private formBuilder: FormBuilder, private apiService: ApiService, private route: ActivatedRoute, private cookieService: CookieService, private router: Router) {
     this.postForm = this.formBuilder.group({
       title: ['', Validators.required],
@@ -41,9 +42,9 @@ export class PostFormComponent implements OnInit {
   submitPost() {
     let post = this.postForm.value;
     this.apiService.addPost(post).subscribe(res => {
+      this.message = res.message;
       if(res.message === "Post created") {
-        this.postForm.reset();
-        this.message = "Post created";
+        this.router.navigate(['/main'], { queryParams: {userPosts: true} });
       }
     })
   }

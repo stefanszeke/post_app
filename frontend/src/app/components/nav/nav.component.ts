@@ -3,6 +3,7 @@ import { Store } from "@ngrx/store";
 import { Observable } from "rxjs";
 import { AppState } from "src/app/store/app.state";
 import * as UsersActions from "src/app/store/users/users.actions";
+import * as VotesActions from "src/app/store/votes/votes.actions";
 import { CookieService } from "ngx-cookie-service";
 import { Router } from "@angular/router";
 
@@ -30,6 +31,7 @@ export class NavComponent implements OnInit {
 
   logout() {
     this.store.dispatch(UsersActions.logout());
+    this.store.dispatch(VotesActions.clearVotes());
     this.cookieService.deleteAll()
     this.router.navigate(['/login']);
   }

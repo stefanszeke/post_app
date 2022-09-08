@@ -1,9 +1,12 @@
-import e, { Request, Response } from "express";
-import { convertToObject } from "typescript";
+import { Request, Response } from "express";
 import { Database } from "../database/database";
+import AppService from "../services/appService";
 
 export const makePost = async (req: Request, res: Response) => {
   const {title, text, user_id} = req.body;
+
+  const validation = await AppService.postValidation(res, req.body)
+  if(!validation) return;
 
   const post = { title, text, user_id, score: 0, timestamp: Date.now()};
 
@@ -40,6 +43,9 @@ export const getUserPosts = async (req: Request, res: Response) => {
 export const updatePost = async (req: Request, res: Response) => {
   const {title, text, user_id} = req.body;
   const id = req.params.id;
+
+  const validation = await AppService.postValidation(res, req.body)
+  if(!validation) return;
 
   const post = { title, text };
 
