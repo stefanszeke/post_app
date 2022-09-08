@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { Post } from "../models/post";
+import { Votes } from "../models/votes";
 
 @Injectable({
   providedIn: 'root'
@@ -28,7 +29,7 @@ export class ApiService {
     return this.http.post<any>(`${this.url}/users/login`, credentials, this.options);
   }
 
-  getUserVotes(): Observable<any> {
+  getUserVotes(): Observable<Votes> {
     return this.http.get<any>(`${this.url}/users/votes`, this.options);
   }
 

@@ -39,5 +39,7 @@ export const login = async (req: Request, res: Response) => {
 export const sendVotes = async (req: Request, res: Response) => {
   const {user_id} = req.body;
   const userVotes = await Database.useMySql("SELECT upvoted,downvoted FROM users WHERE id = ?", [user_id]);
-  res.json({upvoted: userVotes[0].upvoted.split(","), downvoted: userVotes[0].downvoted.split(",")});
+
+
+  res.json({upvoted: userVotes[0].upvoted.split(","), downvoted: userVotes[0].downvoted.split(",")} );
 }

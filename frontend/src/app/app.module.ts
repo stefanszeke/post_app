@@ -15,6 +15,11 @@ import { StoreModule } from '@ngrx/store';
 import { usersReducer } from "./store/users/users.reducers";
 import { PostFormComponent } from './components/post-form/post-form.component';
 import { AuthInterceptor } from "./http-interceptors/auth.interceptor";
+import { EffectsModule } from '@ngrx/effects';
+import { PostsEffects } from "./store/posts/posts.effects";
+import { postsReducer } from "./store/posts/posts.reducers";
+import { votesReducer } from "./store/votes/votes.reducers";
+
 
 
 
@@ -34,7 +39,8 @@ import { AuthInterceptor } from "./http-interceptors/auth.interceptor";
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
-    StoreModule.forRoot({users: usersReducer}, {})
+    StoreModule.forRoot({users: usersReducer,posts: postsReducer, votes: votesReducer}, {}),
+    EffectsModule.forRoot([PostsEffects]),
   ],
   providers: [{provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}],
   bootstrap: [AppComponent]
