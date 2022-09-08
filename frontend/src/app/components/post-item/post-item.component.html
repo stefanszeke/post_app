@@ -1,16 +1,26 @@
-<div class="post">
+<div class="wrapper">
 
-  <div class="title">
-    <h2>{{post.title}}</h2>
-    <p>{{post.timestamp | date: 'dd/MMM/yyyy'}}</p>
+  <div class="score">
+    <a *ngIf="(isLoggedIn$ | async)" (click)="upvote()" [class.upvoted]="classUp">up</a>
+    <h2>{{post.score}}</h2>
+    <a *ngIf="(isLoggedIn$ | async)" (click)="downvote()" [class.downvoted]="classDown">dw</a>
   </div>
   
-  <p>{{post.text}}</p>
-  <p>score: {{post.score}}, created by {{post.user}}, from {{post.country}}</p>
-
-  <div *ngIf="editMode">
-    <a (click)="goToEditPost()">edit</a>
-    <a (click)="deletePost()">delete</a>
+  <div class="post">
+  
+    <div class="title">
+      <h2>{{post.title}}</h2>
+      <p>{{post.timestamp | date: 'dd/MMM/yyyy'}}</p>
+    </div>
+    
+    <p>{{post.text}}</p>
+    <p>created by {{post.user}}, from {{post.country}}</p>
+  
+    <div *ngIf="editMode">
+      <a (click)="goToEditPost()">edit</a>
+      <a (click)="deletePost()">delete</a>
+    </div>
+  
   </div>
 
 </div>

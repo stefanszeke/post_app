@@ -1,3 +1,14 @@
+.wrapper {
+  display: grid;
+  grid-template-columns: 10% 1fr;
+}
+
+.score {
+  display: grid;
+  place-items: center;
+  align-content: center;
+}
+
 .post {
   display: grid;
   gap: 10px;
@@ -12,4 +23,12 @@
 .title p {
   font-size: 0.7rem;
   color: rgb(67, 67, 67);
+}
+
+.upvoted {
+  color: green;
+}
+
+.downvoted {
+  color: red
 }

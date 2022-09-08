@@ -28,6 +28,10 @@ export class ApiService {
     return this.http.post<any>(`${this.url}/users/login`, credentials, this.options);
   }
 
+  getUserVotes(): Observable<any> {
+    return this.http.get<any>(`${this.url}/users/votes`, this.options);
+  }
+
   // posts
   getPosts():Observable<Post[]> {
     return this.http.get<Post[]>(`${this.url}/posts`);
@@ -51,5 +55,9 @@ export class ApiService {
 
   deletePost(id: number): Observable<any> {
     return this.http.delete<Post>(`${this.url}/posts/${id}`, this.options);
+  }
+
+  votePost(id: number, vote:string): Observable<any> {
+    return this.http.patch<any>(`${this.url}/posts/${id}/vote`,{vote}, this.options);
   }
 }

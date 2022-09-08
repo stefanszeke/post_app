@@ -3,5 +3,8 @@
   [post]="post" 
   [editMode]="editMode"
   (onDeletePost)="deletePost($event)"
+  (onUpvotePost)="votePost($event)"
+  [classUp]="upvoted.includes(post.id.toString())"
+  [classDown]="downvoted.includes(post.id.toString())"
   >
 </app-post-item>

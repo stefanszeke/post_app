@@ -14,5 +14,7 @@ postsRouter.patch('/:id', Authentication.isAuth, postsControllers.updatePost );
 
 postsRouter.delete('/:id', Authentication.isAuth, postsControllers.deletePost );
 
+postsRouter.patch('/:id/vote', Authentication.isAuth, postsControllers.votePost );
+
 
 

@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import e, { Request, Response } from "express";
 import { convertToObject } from "typescript";
 import { Database } from "../database/database";
 
@@ -54,3 +54,34 @@ export const deletePost = async (req: Request, res: Response) => {
   await Database.useMySql("DELETE FROM posts WHERE id = ? and user_id = ?", [id, user_id]);
   res.json({message: "Post deleted"});
 }
+
+export const votePost = async (req: Request, res: Response) => {
+  const post_id = req.params.id
+  const {user_id, vote } = req.body;
+
+  const userVotes = await Database.useMySql("SELECT upvoted,downvoted FROM users WHERE id = ?", [user_id]);
+  let test:string[] = []
+  let upvotes:string[] = [...userVotes[0].upvoted.split(",")];
+  let downvotes = userVotes[0].downvoted.split(",");
+  let score = 0;
+
+
+    if(vote === "up") {
+      if(!upvotes.includes(post_id)) { upvotes.push(post_id); score = 1 }
+      else if(upvotes.includes(post_id)) { upvotes.splice(upvotes.indexOf(post_id), 1); score = -1 }
+      if(downvotes.includes(post_id)) { downvotes.splice(downvotes.indexOf(post_id), 1); score += 1 }
+    }
+    
+    
+    if(vote === "down") {
+      if(!downvotes.includes(post_id)) { downvotes.push(post_id); score = -1 }
+      else if(downvotes.includes(post_id)) { downvotes.splice(downvotes.indexOf(post_id), 1); score = + 1 }
+      if(upvotes.includes(post_id)) { upvotes.splice(upvotes.indexOf(post_id), 1); score -= 1 }
+    }
+
+    
+    await Database.useMySql("UPDATE posts SET score = score + ? WHERE id = ?", [score, post_id]);
+    await Database.useMySql("UPDATE users SET upvoted = ?, downvoted = ? WHERE id = ?", [upvotes.join(","), downvotes.join(","), user_id]);
+    
+    res.json({message: "Post voted"});
+  }

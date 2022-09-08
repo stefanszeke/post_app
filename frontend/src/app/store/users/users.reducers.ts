@@ -4,11 +4,15 @@ import * as UsersActions from "./users.actions";
 export interface UsersState {
   name: string;
   isLoggedIn: boolean;
+  upvoted: number[];
+  downvoted: number[];
 };
 
 export const initialState: UsersState = {
   name: '',
   isLoggedIn: false,
+  upvoted: [],
+  downvoted: []
 };
 
 export const usersReducer = createReducer(
