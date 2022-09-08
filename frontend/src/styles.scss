@@ -9,14 +9,26 @@
 .form {
   display: grid;
   margin: 0 auto;
-  width: 80%;
 
-  padding: 10px 30px;
+  padding: 10px 40px;
 
   border: 1px solid grey;
   border-radius: 4px;
 
   input,select, button  {
     margin-bottom: 10px;
+  }
+
+  button {
+    background-color: rgb(158, 148, 215);
+    border: none;
+    padding: 7px;
+    color: white;
+    font-weight: bold;
+    border-radius: 4px;
+  }
+
+  button:hover {
+    filter: brightness(1.1);
   }
 }
