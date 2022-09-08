@@ -25,6 +25,9 @@ export default class AppService {
     const userName = await Database.useMySql(`SELECT name FROM users WHERE name = ?`, [input.name]);
     if (userName[0])  {res.json({message: "User already exists"}); return false };
 
+    let emailRegex: RegExp = /[\w\.\-\%\!]+@\w+\.\w{2,}/;
+    if (!emailRegex.test(input.email)) { res.json({message: "Invalid email"}); return false };
+
     const userMail = await Database.useMySql("SELECT * FROM users WHERE email = ?", [input.email]);
     if (userMail[0]) { res.json({message: "Email already exists"}); return false };
 
