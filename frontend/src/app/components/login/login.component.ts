@@ -38,10 +38,7 @@ export class LoginComponent implements OnInit {
       this.message = res.message;
       
       if(res.message === "User logged in") {
-
-
         this.store.dispatch(UsersActions.login({ name: this.cookieService.get('name') }));
-        
         this.router.navigate(['/']);
       }
     })

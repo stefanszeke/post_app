@@ -19,6 +19,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { PostsEffects } from "./store/posts/posts.effects";
 import { postsReducer } from "./store/posts/posts.reducers";
 import { votesReducer } from "./store/votes/votes.reducers";
+import { VotesEffects } from "./store/votes/votes.effects";
 
 
 
@@ -40,7 +41,7 @@ import { votesReducer } from "./store/votes/votes.reducers";
     FormsModule,
     ReactiveFormsModule,
     StoreModule.forRoot({users: usersReducer,posts: postsReducer, votes: votesReducer}, {}),
-    EffectsModule.forRoot([PostsEffects]),
+    EffectsModule.forRoot([PostsEffects, VotesEffects]),
   ],
   providers: [{provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}],
   bootstrap: [AppComponent]

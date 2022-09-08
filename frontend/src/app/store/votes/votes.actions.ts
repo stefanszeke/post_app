@@ -1,14 +1,21 @@
 import { createAction, props } from "@ngrx/store";
-import { Post } from "src/app/models/post";
 
 
-export const getUpvoted = createAction(
-  '[Posts Page] upvoted',
+export const requestVotes = createAction(
+  '[Posts Page] Votes Request'
+);
+
+export const failedVotes = createAction(
+  '[Posts Page] Votes Failed',
+  props<{ error: string }>()
+);
+
+export const successUpVotes = createAction(
+  '[Posts Page] UpVotes Success',
   props<{ payload: string[] }>()
 );
 
-export const getDownvoted = createAction(
-  '[Posts Page] downvoted',
+export const successDownVotes = createAction(
+  '[Posts Page] DownVotes Success',
   props<{ payload: string[] }>()
 );
-

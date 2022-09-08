@@ -24,10 +24,7 @@ export class RegisterComponent implements OnInit {
     });
   }
    
-
-  ngOnInit(): void {
-
-  }
+  ngOnInit(): void {}
 
   register() {
     let val = this.registerForm.value;
@@ -39,9 +36,6 @@ export class RegisterComponent implements OnInit {
         this.router.navigate(['/login'], { queryParams: { registered: true } });
       }
     })
-
   }
-
-
 
 }

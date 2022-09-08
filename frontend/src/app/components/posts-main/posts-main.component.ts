@@ -18,19 +18,18 @@ import * as VotesActions from "../../store/votes/votes.actions";
 })
 export class PostsMainComponent implements OnInit {
   posts$: Observable<Post[]> = this.store.select(state => state.posts.posts);
-  editMode:boolean = false;
   isLoggedIn$: Observable<boolean> = this.store.select(state => state.users.isLoggedIn);
   upvoted$: Observable<string[]> = this.store.select(state => state.votes.upvoted)
   downvoted$: Observable<string[]> = this.store.select(state => state.votes.downvoted);
-
+  
+  editMode:boolean = false;
   noPosts: string = ''
-
 
   constructor(private apiService: ApiService, private route: ActivatedRoute, private store: Store<AppState>) {}
 
   ngOnInit(): void {
-    this.isLoggedIn$.subscribe(res => {
-      if(res) { this.getVotes() }
+    this.isLoggedIn$.subscribe(isLoggedIn => {
+      if(isLoggedIn) { this.getVotes() }
     })
     this.switchMode();
   }
@@ -61,23 +60,16 @@ export class PostsMainComponent implements OnInit {
   }
 
   getVotes() {
-    this.apiService.getUserVotes().subscribe(res => {
-      this.store.dispatch(VotesActions.getUpvoted({payload: res.upvoted}));
-      this.store.dispatch(VotesActions.getDownvoted({payload: res.downvoted}));
-    })
+    this.store.dispatch(VotesActions.requestVotes());
   }
 
   checkIfNoPosts() {
-    this.posts$.subscribe(res => {
-      if(res.length === 0) {
-        if(this.editMode) {
-          this.noPosts = 'You have no posts'
-        } else {
-          this.noPosts = 'There are no posts'
-        }
-      } else {
-        this.noPosts = ''
-      }
+    this.posts$.subscribe(posts => {
+      if(posts.length === 0) {
+        if(this.editMode) { this.noPosts = 'You have no posts' } 
+        else { this.noPosts = 'There are no posts' }
+      } 
+      else { this.noPosts = ''}
     })
   }
 
