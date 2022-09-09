@@ -14,12 +14,14 @@
     </div>
     
     <p>{{post.text}}</p>
-    <p class="user">created by {{post.user}}, from {{post.country}}</p>
-  
+
     <div *ngIf="editMode" class="edit-buttons">
       <a id='edit'(click)="goToEditPost()">edit</a>
       <a id='delete'(click)="deletePost()">delete</a>
     </div>
+    
+    <p class="user">created by {{post.user}}, from {{post.country}}</p>
+    
   
   </div>
 

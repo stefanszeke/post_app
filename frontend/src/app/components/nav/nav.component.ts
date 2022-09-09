@@ -6,7 +6,7 @@ import * as UsersActions from "src/app/store/users/users.actions";
 import * as VotesActions from "src/app/store/votes/votes.actions";
 import { CookieService } from "ngx-cookie-service";
 import { Router } from "@angular/router";
-import { faHouse, faRightToBracket, faDoorOpen, faClipboard, faPlus } from '@fortawesome/free-solid-svg-icons';
+import { faHouse, faRightToBracket, faDoorOpen, faClipboard, faPlus, faBars, faXmark } from '@fortawesome/free-solid-svg-icons';
 import { faAddressCard } from '@fortawesome/free-regular-svg-icons';
 
 @Component({
@@ -17,9 +17,10 @@ import { faAddressCard } from '@fortawesome/free-regular-svg-icons';
 export class NavComponent implements OnInit {
   name$: Observable<string> = this.store.select(state => state.users.name);
   isLoggedIn$: Observable<boolean> = this.store.select(state => state.users.isLoggedIn);
+  hideMenu:boolean = true;
   
   faHouse = faHouse; faAddressCard = faAddressCard; faRightToBracket = faRightToBracket; faDoorOpen = faDoorOpen;
-  faClipboard = faClipboard; faPlus = faPlus;
+  faClipboard = faClipboard; faPlus = faPlus; faBars = faBars; faXmark = faXmark
   
   constructor(private store: Store<AppState>, private cookieService: CookieService, private router: Router) { }
 
@@ -38,5 +39,15 @@ export class NavComponent implements OnInit {
     this.store.dispatch(VotesActions.clearVotes());
     this.cookieService.deleteAll()
     this.router.navigate(['/login']);
+    this.closeMenu()
+
+  }
+  
+  toggleMenu() {
+    this.hideMenu = !this.hideMenu;
+  }
+
+  closeMenu() {
+    this.hideMenu = true;
   }
 }

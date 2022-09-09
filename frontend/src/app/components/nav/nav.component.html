@@ -1,26 +1,31 @@
 <div class="wrapper">
 
   
-  <div class="box">
-    <h2>POST APP</h2>
-    <a class='icon' [routerLink]="['']"><fa-icon [icon]="faHouse"></fa-icon>home</a>
+  <div class="box title">
+    <div class="home">
+      <h2>POST APP</h2>
+      <a class='icon' [routerLink]="['']" (click)="closeMenu()"><fa-icon [icon]="faHouse" ></fa-icon>home</a>
+    </div>
+    <a *ngIf="hideMenu" id="menu" (click)="toggleMenu()" ><fa-icon [icon]="faBars" ></fa-icon></a>
+    <a *ngIf="!hideMenu" id="menu" (click)="toggleMenu()" ><fa-icon [icon]="faXmark" ></fa-icon></a>
   </div>
 
-  <div class="box name">
+  <div class="box name mobile" [class.hidden]="hideMenu">
     <h2 *ngIf="!(isLoggedIn$ | async)">not logged in</h2>
     <h2>{{name$ | async}}</h2>
     <nav>
-      <a class='icon' *ngIf="!(isLoggedIn$ | async)" [routerLink]="['register']"><fa-icon [icon]="faAddressCard"></fa-icon>register</a>
-      <a class='icon' *ngIf="!(isLoggedIn$ | async)" [routerLink]="['login']"><fa-icon [icon]="faRightToBracket"></fa-icon>login</a>
+      <a class='icon' *ngIf="!(isLoggedIn$ | async)" [routerLink]="['register']" (click)="closeMenu()"><fa-icon [icon]="faAddressCard" ></fa-icon>register</a>
+      <a class='icon' *ngIf="!(isLoggedIn$ | async)" [routerLink]="['login']" (click)="closeMenu()"><fa-icon [icon]="faRightToBracket"></fa-icon>login</a>
       <a class='icon' *ngIf="(isLoggedIn$ | async)"(click)="logout()"><fa-icon [icon]="faDoorOpen"></fa-icon>logout</a>
     </nav>
   </div>
   
 
   
-  <nav class="box" *ngIf="(isLoggedIn$ | async)">
-    <a class='icon' [routerLink]="['main']" [queryParams]="{userPosts: true}"><fa-icon [icon]="faClipboard"></fa-icon>my Posts</a>
-    <a class='icon' [routerLink]="['post']"><fa-icon [icon]="faPlus"></fa-icon>new post</a>
+  <nav class="box usermenu mobile" [class.hidden]="hideMenu" *ngIf="(isLoggedIn$ | async)">
+    <a class='icon' [routerLink]="['main']" [queryParams]="{userPosts: true}" (click)="closeMenu()"><fa-icon [icon]="faClipboard"></fa-icon>my Posts</a>
+    <a class='icon' [routerLink]="['post']" (click)="closeMenu()" ><fa-icon [icon]="faPlus"></fa-icon>new post</a>
   </nav>
 
 </div>
+<div class="overlay" [class.hidden]="hideMenu" (click)="closeMenu()"></div>
