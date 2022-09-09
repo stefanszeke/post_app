@@ -3,24 +3,24 @@
   
   <div class="box">
     <h2>POST APP</h2>
-    <a [routerLink]="['']">home</a>
+    <a class='icon' [routerLink]="['']"><fa-icon [icon]="faHouse"></fa-icon>home</a>
   </div>
 
   <div class="box name">
-    <p *ngIf="!(isLoggedIn$ | async)">not logged in</p>
-    <p>{{name$ | async}}</p>
+    <h2 *ngIf="!(isLoggedIn$ | async)">not logged in</h2>
+    <h2>{{name$ | async}}</h2>
     <nav>
-      <a *ngIf="!(isLoggedIn$ | async)" [routerLink]="['register']">register</a>
-      <a *ngIf="!(isLoggedIn$ | async)" [routerLink]="['login']">login</a>
-      <a *ngIf="(isLoggedIn$ | async)"(click)="logout()">logout</a>
+      <a class='icon' *ngIf="!(isLoggedIn$ | async)" [routerLink]="['register']"><fa-icon [icon]="faAddressCard"></fa-icon>register</a>
+      <a class='icon' *ngIf="!(isLoggedIn$ | async)" [routerLink]="['login']"><fa-icon [icon]="faRightToBracket"></fa-icon>login</a>
+      <a class='icon' *ngIf="(isLoggedIn$ | async)"(click)="logout()"><fa-icon [icon]="faDoorOpen"></fa-icon>logout</a>
     </nav>
   </div>
   
 
   
   <nav class="box" *ngIf="(isLoggedIn$ | async)">
-    <a [routerLink]="['main']" [queryParams]="{userPosts: true}">my Posts</a>
-    <a [routerLink]="['post']">new post</a>
+    <a class='icon' [routerLink]="['main']" [queryParams]="{userPosts: true}"><fa-icon [icon]="faClipboard"></fa-icon>my Posts</a>
+    <a class='icon' [routerLink]="['post']"><fa-icon [icon]="faPlus"></fa-icon>new post</a>
   </nav>
 
 </div>

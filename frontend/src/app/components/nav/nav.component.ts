@@ -6,7 +6,8 @@ import * as UsersActions from "src/app/store/users/users.actions";
 import * as VotesActions from "src/app/store/votes/votes.actions";
 import { CookieService } from "ngx-cookie-service";
 import { Router } from "@angular/router";
-
+import { faHouse, faRightToBracket, faDoorOpen, faClipboard, faPlus } from '@fortawesome/free-solid-svg-icons';
+import { faAddressCard } from '@fortawesome/free-regular-svg-icons';
 
 @Component({
   selector: 'app-nav',
@@ -16,6 +17,9 @@ import { Router } from "@angular/router";
 export class NavComponent implements OnInit {
   name$: Observable<string> = this.store.select(state => state.users.name);
   isLoggedIn$: Observable<boolean> = this.store.select(state => state.users.isLoggedIn);
+  
+  faHouse = faHouse; faAddressCard = faAddressCard; faRightToBracket = faRightToBracket; faDoorOpen = faDoorOpen;
+  faClipboard = faClipboard; faPlus = faPlus;
   
   constructor(private store: Store<AppState>, private cookieService: CookieService, private router: Router) { }
 

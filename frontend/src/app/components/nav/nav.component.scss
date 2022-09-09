@@ -16,8 +16,7 @@ nav {
   padding: 0.5rem;
   text-align: center;
   a {
-    font-size: 0.8rem;
-    color: rgb(158, 148, 215);
+    width: 100px;
   }
 }
 
@@ -36,9 +35,25 @@ a {
   text-decoration: none;
   color: white;
   cursor: pointer;
+  transition: 90ms;
 }
 a:hover {
   filter: brightness(0.7);
+  transform: scale(1.04);
+}
+
+.icon {
+  display: grid;
+  grid-auto-flow: column;
+  place-items: center;
+  gap: 5px;
+
+  color: rgb(158, 148, 215);
+  border: 1px solid rgb(158, 148, 215);
+  border-radius: 20px;
+  padding: 2px 10px;
+
+  margin: 5px 0;
 }
 
 @media screen and (max-width: 900px) {
@@ -50,4 +65,10 @@ a:hover {
   .box {
     border-radius: 0;
   }
+
+  .name {
+    align-content: center;
+    order: 1;
+  }
 }
+
