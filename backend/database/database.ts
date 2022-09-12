@@ -1,10 +1,5 @@
 import mysql from "mysql2";
-import dotenv from "dotenv";
 import AppService from "../services/appService";
-dotenv.config();
-
-
-
 
 
 export class Database {

@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { Post } from "../models/post";
 import { Votes } from "../models/votes";
+import { environment } from "../../environments/environment";
 
 @Injectable({
   providedIn: 'root'
@@ -13,10 +14,9 @@ export class ApiService {
     headers: new HttpHeaders({
       'Content-Type': 'application/json'
     }),
-    withCredentials: true
   };
 
-  url = 'http://localhost:3700/api';
+  url = environment.apiUrl;
 
   constructor(private http: HttpClient) { }
 

@@ -1,19 +1,21 @@
-import express from 'express';
+import express, { Request, Response } from 'express';
 import { usersRouter } from "./routes/users";
 import { postsRouter } from "./routes/posts";
+import path from "path";
 import cors from 'cors';
 
 // express setup
 const app = express();
 app.use(express.json());
-app.use(cors({ origin: 'http://localhost:4200', credentials: true }));
+app.use(cors());
+app.use(express.static('public'));
 
 // routes
 app.use('/api/users', usersRouter);
 app.use('/api/posts', postsRouter);
 
-app.get('/', (req, res) => {
-  res.send('Hello World!');
+app.get("*", (req: Request, res: Response) => {
+  res.redirect("/");
 })
 
 const PORT = process.env.PORT || 3700;

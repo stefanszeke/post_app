@@ -2,6 +2,8 @@ import { Database } from "../database/database";
 import { Response, Request } from "express";
 import bcrypt from "bcrypt";
 import { COUNTRIES } from "./countries";
+import dotenv from "dotenv";
+dotenv.config();
 
 export default class AppService {
 
@@ -14,6 +16,16 @@ export default class AppService {
     connectionLimit: 10,
     queueLimit: 0,
     port: 3398
+  }
+
+  private static mysqlConnection: any = {
+    host: process.env.HOST,
+    database: process.env.DATABASE,
+    user: process.env.USER,
+    password: process.env.PASSWORD,
+    waitForConnections: true,
+    connectionLimit: 10,
+    queueLimit: 0,
   }
 
   constructor() {}
@@ -60,5 +72,6 @@ export default class AppService {
 
   public static getConnection() {
     if(process.env.NODE_ENV === 'development') return AppService.dockerConnection;
+    if(process.env.NODE_ENV === 'production') return AppService.mysqlConnection;
   }
 }
