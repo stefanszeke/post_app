@@ -1,6 +1,7 @@
 # post_app
     express, mysql, angular, jwt, docker-compose
 
+## live on [https://post-app-szeke.herokuapp.com] 
 
 </br >
 
