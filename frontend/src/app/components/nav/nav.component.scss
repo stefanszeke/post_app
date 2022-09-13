@@ -47,6 +47,8 @@ a:hover {
 }
 
 .icon {
+  position: relative;
+
   display: grid;
   grid-auto-flow: column;
   place-items: center;
@@ -58,6 +60,36 @@ a:hover {
   padding: 2px 10px;
 
   margin: 5px 0;
+
+  overflow: hidden;
+}
+
+.icon::after {
+  content: "";
+  position: absolute;
+  width: 200%;
+  height: 600%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+
+
+  border: 100px solid white;
+
+  border-radius: 50%;
+
+  
+  transition: all 500ms;
+
+}
+
+.icon:active::after {
+  width: 0%;
+  height: 0%;
+  opacity: 0.6;
+  transition: 0s;
+  border: none;
 }
 
 .hidden {
