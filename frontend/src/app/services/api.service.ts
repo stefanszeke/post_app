@@ -26,7 +26,7 @@ export class ApiService {
   }
   
   login(credentials: any): Observable<any> {
-    return this.http.post<any>(`${this.url}/users/login`, credentials, this.options);
+    return this.http.post<any>(`${this.url}/users/login`, credentials, {...this.options, withCredentials: true});
   }
 
   getUserVotes(): Observable<Votes> {

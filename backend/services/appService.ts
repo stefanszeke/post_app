@@ -74,4 +74,9 @@ export default class AppService {
     if(process.env.NODE_ENV === 'development') return AppService.dockerConnection;
     if(process.env.NODE_ENV === 'production') return AppService.mysqlConnection;
   }
+
+  public static serverLog() {
+    if(process.env.NODE_ENV === 'development') console.log('\x1b[32m%s\x1b[0m', ` ⇒ App listening on Port ${process.env.PORT || 3700}, env: ${process.env.NODE_ENV}`);
+    if(process.env.NODE_ENV === 'production') console.log(`App listening on Port ${process.env.PORT || 3700}, env: ${process.env.NODE_ENV}`);
+  }
 }
