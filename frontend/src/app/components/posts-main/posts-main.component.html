@@ -10,9 +10,14 @@
   >
 </app-post-item>
 <div class="pagination">
-  <button [disabled]="currentPage === 1" (click)="prevPage()" >prev</button>
-  <p>
+  <button [class.disabled]="currentPage === 1"  (click)="prevPage()" ><fa-icon [icon]="faBackward"></fa-icon></button>
 
-  </p>
-  <button [disabled]="(posts$ | async)!.length != 5" (click)="nextPage()" >next</button>
+  <div class="input-page">
+
+    <input type="text" [(ngModel)]="selectPage">
+    <button [disabled]="selectPage < 1" (click)="getPage(selectPage)"><fa-icon [icon]="faMagnifyingGlass"></fa-icon></button>
+
+  </div>
+
+  <button [disabled]="(posts$ | async)!.length != 5" (click)="nextPage()" ><fa-icon [icon]="faForward"></fa-icon></button>
 </div>

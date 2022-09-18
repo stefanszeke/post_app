@@ -10,6 +10,9 @@ import { AppState } from "src/app/store/app.state";
 import * as PostsActions from "../../store/posts/posts.actions";
 import * as VotesActions from "../../store/votes/votes.actions";
 
+import { faForward, faBackward,faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
+
+
 
 @Component({
   selector: 'app-posts-main',
@@ -25,7 +28,10 @@ export class PostsMainComponent implements OnInit {
   editMode:boolean = false;
   noPosts: string = ''
 
+  selectPage: number = 1;
   currentPage: number = 1;
+
+  faForward = faForward; faBackward = faBackward; faMagnifyingGlass = faMagnifyingGlass;
 
   constructor(private apiService: ApiService, private route: ActivatedRoute, private store: Store<AppState>) {}
 
@@ -76,13 +82,16 @@ export class PostsMainComponent implements OnInit {
   }
 
   getPage(page:number) {
+    this.currentPage = +this.selectPage
     this.store.dispatch(PostsActions.requestPosts(page));
+    console.log(this.currentPage)
   }
 
   nextPage(){
     this.posts$.subscribe(posts => {
       if(posts.length === 5) {
         this.currentPage++;
+        this.selectPage = this.currentPage;
         this.getPage(this.currentPage);
       }
     }).unsubscribe()
@@ -91,6 +100,7 @@ export class PostsMainComponent implements OnInit {
   prevPage(){
     if(this.currentPage > 1) {
       this.currentPage--;
+      this.selectPage = this.currentPage;
       this.getPage(this.currentPage);
     }
   }

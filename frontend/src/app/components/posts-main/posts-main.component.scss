@@ -1,0 +1,52 @@
+.pagination {
+  display: grid;
+  grid-auto-flow: column;
+  justify-content: end;
+  gap:10px;
+
+}
+
+.input-page {
+  display: grid;
+  grid-auto-flow: column;
+  justify-content: stretch;
+  align-items: center;
+  line-height: 17px;
+  gap: 5px;
+  border: 1px solid grey;
+  padding: 2px 10px;
+  border-radius: 20px;
+}
+
+.input-page input {
+  width: 22px;
+  height: 85%;
+  text-align: center;
+}
+
+.pagination button {
+  border: none;
+  background: none;
+  cursor: pointer;
+  transition: 90ms;
+}
+
+.pagination button:hover {
+  background: none;
+  color: rgb(158, 148, 215);
+  transform: scale(1.1);
+}
+
+.disabled {
+  color: grey;
+  pointer-events: none;
+  cursor: none;
+}
+
+.disabled button:hover {
+  color: grey;
+  transform: scale(1);
+}
+
+
+
