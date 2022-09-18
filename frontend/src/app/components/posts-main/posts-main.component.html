@@ -1,4 +1,20 @@
 <h2>{{noPosts}}</h2>
+<div class="filters">
+  
+  <div class="filter-buttons">
+    <p>order by:</p>
+    <a (click)="order('dateUp')">date<fa-icon [icon]="faUpLong"></fa-icon></a>
+    <a (click)="order('dateDown')">date<fa-icon [icon]="faDownLong"></fa-icon></a>
+    <a (click)="order('scoreUp')">Score<fa-icon [icon]="faUpLong"></fa-icon></a>
+    <a (click)="order('scoreDown')">Score<fa-icon [icon]="faDownLong"></fa-icon></a>
+  </div>
+
+  <div class="search">
+    <input type="text" [(ngModel)]="search">
+    <button (click)="searchPost()"><fa-icon [icon]="faSearch"></fa-icon></button>
+  </div>
+
+</div>
 <app-post-item 
   *ngFor="let post of (posts$ | async)" 
   [post]="post" 
@@ -9,13 +25,14 @@
   [classDown]="(downvoted$ | async)!.includes(post.id.toString())"
   >
 </app-post-item>
+
 <div class="pagination">
   <button [class.disabled]="currentPage === 1"  (click)="prevPage()" ><fa-icon [icon]="faBackward"></fa-icon></button>
 
   <div class="input-page">
 
     <input type="text" [(ngModel)]="selectPage">
-    <button [disabled]="selectPage < 1" (click)="getPage(selectPage)"><fa-icon [icon]="faMagnifyingGlass"></fa-icon></button>
+    <button [disabled]="selectPage < 1" (click)="getPage()"><fa-icon [icon]="faMagnifyingGlass"></fa-icon></button>
 
   </div>
 

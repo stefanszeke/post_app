@@ -4,7 +4,7 @@ import { Post } from "src/app/models/post";
 
 export const requestPosts = createAction(
   '[Posts Page] Posts Request',
-  (page: number = 0) => ({ page })
+  (page: number = 0, orderBy: string = 'posts.id', order: string = 'DESC',  search: string = "") => ({ page, orderBy, order, search })
 );
 
 export const failedPosts = createAction(
@@ -19,6 +19,7 @@ export const successPosts = createAction(
 
 export const requestUserPosts = createAction(
   '[Posts Page] User Posts Request',
+  (page: number = 0, orderBy: string = 'posts.id', order: string = 'DESC',  search: string = "") => ({ page, orderBy, order, search })
 );
 
 export const failedUserPosts = createAction(

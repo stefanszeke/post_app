@@ -33,6 +33,7 @@ export default class AppService {
   public static async registerValidation(res: Response, input: any) {
     if (!input.name || !input.email || !input.password || !input.confirm || !input.country) { res.json({message: "Please fill all fields"}); return false };
     if (input.name.length < 4) { res.json({message: "Name must be at least 4 characters"}); return false };
+    if (input.name.length > 16) { res.json({message: "Name can't be longer than 16 characters"}); return false };
 
     const userName = await Database.useMySql(`SELECT name FROM users WHERE name = ?`, [input.name]);
     if (userName[0])  {res.json({message: "User already exists"}); return false };

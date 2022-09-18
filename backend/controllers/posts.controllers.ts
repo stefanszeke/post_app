@@ -16,12 +16,23 @@ export const makePost = async (req: Request, res: Response) => {
 
 
 export const getPosts = async (req: Request, res: Response) => {
-  let page: number = +req.query.page!-1;
+  try {
 
-  let getPostWithUsers = `SELECT posts.id, posts.title, posts.text, posts.score, posts.timestamp, users.name as user, users.country FROM posts JOIN users ON (posts.user_id = users.id) ORDER BY posts.id DESC LIMIT ?,?;`
-  const posts = await Database.useMySql(getPostWithUsers,[page*5,5 || 0,5]);
+    console.log(req.query)
 
-  res.json(posts);
+    let page: number = +req.query.page!-1;
+    if(page < 0) page = 0;
+  
+    let orderBy = req.query.orderBy ||'posts.id' ;
+    let order = req.query.order || 'DESC';
+    let search = req.query.search || "";
+  
+    let getPosts = `SELECT posts.id, posts.title, posts.text, posts.score, posts.timestamp, users.name as user, users.country FROM posts JOIN users ON (posts.user_id = users.id) WHERE posts.title LIKE '%${search}%' ORDER BY ${orderBy} ${order} LIMIT ?,?;`
+    const posts = await Database.useMySql(getPosts,[page*5,5 || 0,5]);
+  
+    res.json(posts);
+
+  } catch (err) { console.log(err); res.status(500).json({message: "Something went wrong"}) }
 }
 
 export const getUserPosts = async (req: Request, res: Response) => {
@@ -34,8 +45,18 @@ export const getUserPosts = async (req: Request, res: Response) => {
   }
 
   else {
-    const getPostWithUsers = `SELECT posts.id, posts.title, posts.text, posts.score, posts.timestamp, users.name as user, users.country FROM posts JOIN users ON (posts.user_id = users.id) WHERE posts.user_id = ?  ORDER BY posts.id DESC;`
-    const posts = await Database.useMySql(getPostWithUsers, [req.body.user_id]);
+
+    console.log(req.query)
+
+    let page: number = +req.query.page!-1;
+    if(page < 0) page = 0;
+  
+    let orderBy = req.query.orderBy ||'posts.id' ;
+    let order = req.query.order || 'DESC';
+    let search = req.query.search || "";
+
+    const getPostWithUsers = `SELECT posts.id, posts.title, posts.text, posts.score, posts.timestamp, users.name as user, users.country FROM posts JOIN users ON (posts.user_id = users.id) WHERE posts.user_id = ? AND posts.title LIKE '%${search}%' ORDER BY ${orderBy} ${order} LIMIT ?,?`
+    const posts = await Database.useMySql(getPostWithUsers, [req.body.user_id, page*5,5 || 0,5]);
     
     res.json(posts);
   }

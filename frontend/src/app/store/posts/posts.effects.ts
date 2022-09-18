@@ -41,10 +41,11 @@ export class PostsEffects {
       withLatestFrom(this.name$),
       // delay(2000),
 
-      switchMap(
-        ([_,name]) =>
+      
+      mergeMap(
+        (action) =>
           this.apiService
-            .getUserPosts(name)
+            .getUserPosts(action)
             .pipe(map((payload) => PostsActions.successUserPosts({ payload }))) // action2
       ),
 

@@ -10,7 +10,7 @@ import { AppState } from "src/app/store/app.state";
 import * as PostsActions from "../../store/posts/posts.actions";
 import * as VotesActions from "../../store/votes/votes.actions";
 
-import { faForward, faBackward,faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
+import { faForward, faBackward,faMagnifyingGlass, faUpLong, faDownLong, faSearch } from '@fortawesome/free-solid-svg-icons';
 
 
 
@@ -31,7 +31,12 @@ export class PostsMainComponent implements OnInit {
   selectPage: number = 1;
   currentPage: number = 1;
 
-  faForward = faForward; faBackward = faBackward; faMagnifyingGlass = faMagnifyingGlass;
+  filter: any = {orderBy: 'posts.id', order: 'DESC', search: ''}
+
+  search: string = ""
+
+  faForward = faForward; faBackward = faBackward; faMagnifyingGlass = faMagnifyingGlass; faUpLong = faUpLong; faDownLong = faDownLong; faSearch = faSearch;
+
 
   constructor(private apiService: ApiService, private route: ActivatedRoute, private store: Store<AppState>) {}
 
@@ -54,14 +59,46 @@ export class PostsMainComponent implements OnInit {
     })
   }
 
+  getPage() {
+    this.currentPage = +this.selectPage
+    this.getPosts()
+  }
+
+  nextPage(){
+    this.posts$.subscribe(posts => {
+      if(posts.length === 5) {
+        this.currentPage++;
+        this.selectPage = this.currentPage;
+        this.getPosts()
+      }
+    }).unsubscribe()
+  }
+
+  prevPage(){
+    if(this.currentPage > 1) {
+      this.currentPage--;
+      this.selectPage = this.currentPage;
+      this.getPosts()
+    }
+  }
+
+  searchPost() {
+    this.filter.search = this.search;
+    this.getPosts()
+  }
+
   switchMode() {
     this.route.queryParams.subscribe(params => {
       if(params['userPosts']) {
-        this.store.dispatch(PostsActions.requestUserPosts());
         this.editMode = true;
+        this.currentPage = 1;
+        this.selectPage = 1;
+        this.getPosts();
       } else {
-        this.store.dispatch(PostsActions.requestPosts(1));
         this.editMode = false;
+        this.currentPage = 1;
+        this.selectPage = 1;
+        this.getPosts()
       }
       this.checkIfNoPosts();
     })
@@ -81,30 +118,29 @@ export class PostsMainComponent implements OnInit {
     })
   }
 
-  getPage(page:number) {
-    this.currentPage = +this.selectPage
-    this.store.dispatch(PostsActions.requestPosts(page));
-    console.log(this.currentPage)
+  getPosts() {
+    if(this.editMode) { this.store.dispatch(PostsActions.requestUserPosts(this.currentPage,this.filter.orderBy,this.filter.order,this.filter.search)) }
+    else { this.store.dispatch(PostsActions.requestPosts(this.currentPage,this.filter.orderBy,this.filter.order,this.filter.search)) }
   }
 
-  nextPage(){
-    this.posts$.subscribe(posts => {
-      if(posts.length === 5) {
-        this.currentPage++;
-        this.selectPage = this.currentPage;
-        this.getPage(this.currentPage);
-      }
-    }).unsubscribe()
-  }
-
-  prevPage(){
-    if(this.currentPage > 1) {
-      this.currentPage--;
-      this.selectPage = this.currentPage;
-      this.getPage(this.currentPage);
+  order(type: string) {
+    if(type === 'dateDown') {
+    this.filter.orderBy = 'posts.id';
+    this.filter.order = 'DESC';
     }
+    if(type === 'dateUp') {
+      this.filter.orderBy = 'posts.id';
+      this.filter.order = 'ASC';
+    }
+    if(type === 'scoreDown') {
+      this.filter.orderBy = 'posts.score';
+      this.filter.order = 'DESC';
+    }
+    if(type === 'scoreUp') {
+      this.filter.orderBy = 'posts.score';
+      this.filter.order = 'ASC';
+    }
+    this.getPosts()
+
   }
-
-
-
 }

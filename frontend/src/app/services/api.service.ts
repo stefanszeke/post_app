@@ -34,12 +34,14 @@ export class ApiService {
   }
 
   // posts
-  getPosts(limit: any):Observable<Post[]> {
-    return this.http.get<Post[]>(`${this.url}/posts/?page=${limit.page}`);
+  getPosts(filters: any):Observable<Post[]> {
+    return this.http.get<Post[]>(`${this.url}/posts/?page=${filters.page}&orderBy=${filters.orderBy}&order=${filters.order}&search=${filters.search}`);
   }
 
-  getUserPosts(name: string):Observable<Post[]> {
-    return this.http.get<Post[]>(`${this.url}/posts/${name}`);
+  getUserPosts(action: any):Observable<Post[]> {
+    let filters = action[0];
+    let name = action[1];
+    return this.http.get<Post[]>(`${this.url}/posts/${name}?page=${filters.page}&orderBy=${filters.orderBy}&order=${filters.order}&search=${filters.search}`);
   }
 
   getPostById(name: string, id:number):Observable<Post> {
