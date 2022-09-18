@@ -12,6 +12,7 @@
   <div class="search">
     <input type="text" [(ngModel)]="search">
     <button (click)="searchPost()"><fa-icon [icon]="faSearch"></fa-icon></button>
+    <a class='reset-search' (click)='resetSearchAndGetPosts()'><fa-icon [icon]="faX"></fa-icon></a>
   </div>
 
 </div>

@@ -10,7 +10,7 @@ import { AppState } from "src/app/store/app.state";
 import * as PostsActions from "../../store/posts/posts.actions";
 import * as VotesActions from "../../store/votes/votes.actions";
 
-import { faForward, faBackward,faMagnifyingGlass, faUpLong, faDownLong, faSearch } from '@fortawesome/free-solid-svg-icons';
+import { faForward, faBackward,faMagnifyingGlass, faUpLong, faDownLong, faSearch, faX } from '@fortawesome/free-solid-svg-icons';
 
 
 
@@ -35,7 +35,7 @@ export class PostsMainComponent implements OnInit {
 
   search: string = ""
 
-  faForward = faForward; faBackward = faBackward; faMagnifyingGlass = faMagnifyingGlass; faUpLong = faUpLong; faDownLong = faDownLong; faSearch = faSearch;
+  faForward = faForward; faBackward = faBackward; faMagnifyingGlass = faMagnifyingGlass; faUpLong = faUpLong; faDownLong = faDownLong; faSearch = faSearch; faX = faX;
 
 
   constructor(private apiService: ApiService, private route: ActivatedRoute, private store: Store<AppState>) {}
@@ -87,17 +87,21 @@ export class PostsMainComponent implements OnInit {
     this.getPosts()
   }
 
+  resetSearchAndGetPosts() {
+    this.resetSearch()
+    this.getPosts()
+  }
+
   switchMode() {
     this.route.queryParams.subscribe(params => {
+      this.resetPage()
+      this.resetSearch()
+      this.resetFilters()
       if(params['userPosts']) {
         this.editMode = true;
-        this.currentPage = 1;
-        this.selectPage = 1;
         this.getPosts();
       } else {
         this.editMode = false;
-        this.currentPage = 1;
-        this.selectPage = 1;
         this.getPosts()
       }
       this.checkIfNoPosts();
@@ -141,6 +145,21 @@ export class PostsMainComponent implements OnInit {
       this.filter.order = 'ASC';
     }
     this.getPosts()
-
   }
+
+  resetSearch() {
+    this.filter.search = '';
+    this.search = '';
+  }
+
+  resetFilters() {
+    this.filter.orderBy = 'posts.id';
+    this.filter.order = 'DESC';
+  }
+
+  resetPage() {
+    this.currentPage = 1;
+    this.selectPage = 1;
+  }
+
 }

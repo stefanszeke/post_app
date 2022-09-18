@@ -84,11 +84,15 @@
 }
 
 .search {
+  position: relative;
   display: grid;
-  grid-auto-flow: column;
+  grid-template-columns: 1fr 30px;
   align-items: center;
   border-radius: 4px;
   overflow: hidden;
+  a {
+    font-size: 0.6rem;
+  }
 }
 
 .search button {
@@ -97,6 +101,7 @@
   color: white;
   border: none;
   cursor: pointer;
+
 }
 
 .search button:hover {
@@ -114,6 +119,14 @@
   outline: none;
   background-color: rgb(222, 220, 232);
 }
+
+.reset-search {
+  position: absolute;
+  right: 33px;
+  font-size: 0.8rem;
+  color: rgb(112, 67, 90);
+}
+
 
 @media screen and (max-width: 620px) {
   .filters {
