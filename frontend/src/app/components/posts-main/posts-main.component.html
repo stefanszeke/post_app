@@ -9,3 +9,10 @@
   [classDown]="(downvoted$ | async)!.includes(post.id.toString())"
   >
 </app-post-item>
+<div class="pagination">
+  <button [disabled]="currentPage === 1" (click)="prevPage()" >prev</button>
+  <p>
+
+  </p>
+  <button [disabled]="(posts$ | async)!.length != 5" (click)="nextPage()" >next</button>
+</div>

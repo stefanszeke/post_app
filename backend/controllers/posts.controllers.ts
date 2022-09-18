@@ -16,8 +16,10 @@ export const makePost = async (req: Request, res: Response) => {
 
 
 export const getPosts = async (req: Request, res: Response) => {
-  let getPostWithUsers = `SELECT posts.id, posts.title, posts.text, posts.score, posts.timestamp, users.name as user, users.country FROM posts JOIN users ON (posts.user_id = users.id) ORDER BY posts.id DESC;`
-  const posts = await Database.useMySql(getPostWithUsers);
+  let page: number = +req.query.page!-1;
+
+  let getPostWithUsers = `SELECT posts.id, posts.title, posts.text, posts.score, posts.timestamp, users.name as user, users.country FROM posts JOIN users ON (posts.user_id = users.id) ORDER BY posts.id DESC LIMIT ?,?;`
+  const posts = await Database.useMySql(getPostWithUsers,[page*5,5 || 0,5]);
 
   res.json(posts);
 }

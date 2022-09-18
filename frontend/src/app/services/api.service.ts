@@ -34,8 +34,8 @@ export class ApiService {
   }
 
   // posts
-  getPosts():Observable<Post[]> {
-    return this.http.get<Post[]>(`${this.url}/posts`);
+  getPosts(limit: any):Observable<Post[]> {
+    return this.http.get<Post[]>(`${this.url}/posts/?page=${limit.page}`);
   }
 
   getUserPosts(name: string):Observable<Post[]> {

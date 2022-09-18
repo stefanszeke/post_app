@@ -3,7 +3,8 @@ import { Post } from "src/app/models/post";
 
 
 export const requestPosts = createAction(
-  '[Posts Page] Posts Request'
+  '[Posts Page] Posts Request',
+  (page: number = 0) => ({ page })
 );
 
 export const failedPosts = createAction(

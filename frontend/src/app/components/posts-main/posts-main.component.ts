@@ -25,6 +25,8 @@ export class PostsMainComponent implements OnInit {
   editMode:boolean = false;
   noPosts: string = ''
 
+  currentPage: number = 1;
+
   constructor(private apiService: ApiService, private route: ActivatedRoute, private store: Store<AppState>) {}
 
   ngOnInit(): void {
@@ -52,7 +54,7 @@ export class PostsMainComponent implements OnInit {
         this.store.dispatch(PostsActions.requestUserPosts());
         this.editMode = true;
       } else {
-        this.store.dispatch(PostsActions.requestPosts());
+        this.store.dispatch(PostsActions.requestPosts(1));
         this.editMode = false;
       }
       this.checkIfNoPosts();
@@ -72,5 +74,27 @@ export class PostsMainComponent implements OnInit {
       else { this.noPosts = ''}
     })
   }
+
+  getPage(page:number) {
+    this.store.dispatch(PostsActions.requestPosts(page));
+  }
+
+  nextPage(){
+    this.posts$.subscribe(posts => {
+      if(posts.length === 5) {
+        this.currentPage++;
+        this.getPage(this.currentPage);
+      }
+    }).unsubscribe()
+  }
+
+  prevPage(){
+    if(this.currentPage > 1) {
+      this.currentPage--;
+      this.getPage(this.currentPage);
+    }
+  }
+
+
 
 }

@@ -20,9 +20,10 @@ export class PostsEffects {
       // delay(2000),
 
       mergeMap(
-        () =>
+        (action) =>
+
           this.apiService
-            .getPosts()
+            .getPosts(action)
             .pipe(map((payload) => PostsActions.successPosts({ payload }))) // action2
       ),
 
