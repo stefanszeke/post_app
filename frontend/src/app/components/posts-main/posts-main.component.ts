@@ -84,6 +84,7 @@ export class PostsMainComponent implements OnInit {
 
   searchPost() {
     this.filter.search = this.search;
+    this.resetPage()
     this.getPosts()
   }
 
