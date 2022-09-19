@@ -19,7 +19,7 @@ export class PostItemComponent implements OnInit {
   @Input() classUp: boolean = false;
   @Input() classDown: boolean = false;
   @Output() onDeletePost: EventEmitter<number> = new EventEmitter<number>();
-  @Output() onUpvotePost: EventEmitter<any> = new EventEmitter<any>();
+  @Output() onVotePost: EventEmitter<any> = new EventEmitter<any>();
 
   isLoggedIn$: Observable<boolean> = this.store.select(state => state.users.isLoggedIn);
 
@@ -40,11 +40,11 @@ export class PostItemComponent implements OnInit {
   }
 
   upvote() {
-    this.onUpvotePost.emit({id:this.post.id, vote:'up'});
+    this.onVotePost.emit({id:this.post.id, vote:'up'});
   }
 
   downvote() {
-    this.onUpvotePost.emit({id:this.post.id, vote:'down'});
+    this.onVotePost.emit({id:this.post.id, vote:'down'});
   }
 
 }

@@ -55,7 +55,7 @@ export class PostsMainComponent implements OnInit {
 
   votePost(event:any) {
     this.apiService.votePost(event.id,event.vote).subscribe(res => {
-      if(res.message === "Post voted") { this.switchMode(); this.getVotes() }
+      if(res.message === "Post voted") { this.getVotes(); this.getPosts() }
     })
   }
 

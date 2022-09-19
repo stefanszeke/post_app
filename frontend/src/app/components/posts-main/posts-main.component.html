@@ -21,7 +21,7 @@
   [post]="post" 
   [editMode]="editMode"
   (onDeletePost)="deletePost($event)"
-  (onUpvotePost)="votePost($event)"
+  (onVotePost)="votePost($event)"
   [classUp]="(upvoted$ | async)!.includes(post.id.toString())"
   [classDown]="(downvoted$ | async)!.includes(post.id.toString())"
   >
