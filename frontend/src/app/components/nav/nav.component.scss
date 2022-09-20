@@ -92,6 +92,31 @@ a:hover {
   border: none;
 }
 
+.icon::before {
+  content: "";
+  position: absolute;
+  width: 200%;
+  height: 600%;
+  top: 50%;
+  right: 50%;
+  border-radius: 45%;
+  background-color: rgb(255, 255, 255);
+
+  opacity: 0;
+  transition: 120ms;
+}
+
+.icon:hover::before {
+  opacity: 0.2;
+  top: 30%;
+  right: -20%;
+}
+
+.icon:active::before {
+  opacity: 0.3;
+  transform: scale(1.2);
+}
+
 .hidden {
   visibility: hidden;
   opacity: 0;
