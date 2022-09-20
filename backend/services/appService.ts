@@ -71,6 +71,8 @@ export default class AppService {
     return true;
   }
 
+
+
   public static getConnection() {
     if(process.env.NODE_ENV === 'development') return AppService.dockerConnection;
     if(process.env.NODE_ENV === 'production') return AppService.mysqlConnection;
