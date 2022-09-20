@@ -1,12 +1,19 @@
 <h2>{{noPosts}}</h2>
-<div class="filters">
+<div class="order-bar">
   
-  <div class="filter-buttons">
+  <div class="order-wrap">
     <p>order by:</p>
-    <a (click)="order('dateUp')">date<fa-icon [icon]="faUpLong"></fa-icon></a>
-    <a (click)="order('dateDown')">date<fa-icon [icon]="faDownLong"></fa-icon></a>
-    <a (click)="order('scoreUp')">Score<fa-icon [icon]="faUpLong"></fa-icon></a>
-    <a (click)="order('scoreDown')">Score<fa-icon [icon]="faDownLong"></fa-icon></a>
+    <div class="order-buttons">
+      <!-- <a [ngClass]="{'active': selectedOrder() === 'dateDown'}" (click)="order('dateDown')">date<fa-icon [icon]="faDownLong"></fa-icon></a>
+      <a [ngClass]="{'active': selectedOrder() === 'dateUp'}" (click)="order('dateUp')">date<fa-icon [icon]="faUpLong"></fa-icon></a>
+      <a [ngClass]="{'active': selectedOrder() === 'scoreDown'}" (click)="order('scoreDown')">Score<fa-icon [icon]="faDownLong"></fa-icon></a>
+      <a [ngClass]="{'active': selectedOrder() === 'scoreUp'}" (click)="order('scoreUp')">Score<fa-icon [icon]="faUpLong"></fa-icon></a> -->
+
+      <a [ngClass]="{'active-order': selectedOrder('posts.id', 'DESC')}" (click)="order('posts.id', 'DESC')">date<fa-icon [icon]="faDownLong"></fa-icon></a>
+      <a [ngClass]="{'active-order': selectedOrder('posts.id', 'ASC')}" (click)="order('posts.id', 'ASC')">date<fa-icon [icon]="faUpLong"></fa-icon></a>
+      <a [ngClass]="{'active-order': selectedOrder('posts.score', 'DESC')}" (click)="order('posts.score', 'DESC')">Score<fa-icon [icon]="faDownLong"></fa-icon></a>
+      <a [ngClass]="{'active-order': selectedOrder('posts.score', 'ASC')}" (click)="order('posts.score', 'ASC')">Score<fa-icon [icon]="faUpLong"></fa-icon></a>
+    </div>
   </div>
 
   <div class="search">

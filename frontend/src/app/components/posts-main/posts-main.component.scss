@@ -50,7 +50,7 @@
 
 
 
-.filters {
+.order-bar {
   display: grid;
   grid-auto-flow: column;
   justify-content: space-between;
@@ -64,22 +64,36 @@
   font-size: 0.8rem;
 }
 
-.filter-buttons {
+.order-wrap {
+  display: grid;
+  grid-auto-flow: column;
+}
+.order-buttons {
   display: grid;
   grid-auto-flow: column;
   align-items: center;
   gap: 5px;
+  margin-left: 10px;
+
+  fa-icon {
+    font-size: 0.7rem;
+  }
 }
 
-.filter-buttons p{
+
+.order-buttons p{
   margin-right: 10px;
 }
 
-.filters a {
+.order-bar a {
   cursor: pointer;
 }
 
-.filters a:hover {
+.order-bar a:hover {
+  color: rgb(158, 148, 215);
+}
+
+.active-order {
   color: rgb(158, 148, 215);
 }
 

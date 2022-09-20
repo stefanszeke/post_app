@@ -128,24 +128,15 @@ export class PostsMainComponent implements OnInit {
     else { this.store.dispatch(PostsActions.requestPosts(this.currentPage,this.filter.orderBy,this.filter.order,this.filter.search)) }
   }
 
-  order(type: string) {
-    if(type === 'dateDown') {
-    this.filter.orderBy = 'posts.id';
-    this.filter.order = 'DESC';
-    }
-    if(type === 'dateUp') {
-      this.filter.orderBy = 'posts.id';
-      this.filter.order = 'ASC';
-    }
-    if(type === 'scoreDown') {
-      this.filter.orderBy = 'posts.score';
-      this.filter.order = 'DESC';
-    }
-    if(type === 'scoreUp') {
-      this.filter.orderBy = 'posts.score';
-      this.filter.order = 'ASC';
-    }
+  order(orderBy: string, order: string) {
+    this.filter.orderBy = orderBy;
+    this.filter.order = order;
     this.getPosts()
+  }
+
+  selectedOrder(orderBy: string, order: string) {
+    if (this.filter.orderBy === orderBy && this.filter.order === order) { return true }
+    return false
   }
 
   resetSearch() {
