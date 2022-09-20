@@ -1,4 +1,6 @@
-# post_app
+# post_app <img src="https://github.com/stefanszeke/post_app/blob/main/frontend/src/assets/favicon.svg" width="30"/>
+
+
     express, mysql, angular, jwt, docker-compose
 
 ## live on [https://post-app-szeke.herokuapp.com] 
