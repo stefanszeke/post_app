@@ -82,6 +82,17 @@ export class PostsMainComponent implements OnInit {
     }
   }
 
+  order(orderBy: string, order: string) {
+    this.filter.orderBy = orderBy;
+    this.filter.order = order;
+    this.getPosts()
+  }
+
+  orderIsSelected(orderBy: string, order: string) {
+    if (this.filter.orderBy === orderBy && this.filter.order === order) { return true }
+    return false
+  }
+
   searchPost() {
     this.filter.search = this.search;
     this.resetPage()
@@ -126,17 +137,6 @@ export class PostsMainComponent implements OnInit {
   getPosts() {
     if(this.editMode) { this.store.dispatch(PostsActions.requestUserPosts(this.currentPage,this.filter.orderBy,this.filter.order,this.filter.search)) }
     else { this.store.dispatch(PostsActions.requestPosts(this.currentPage,this.filter.orderBy,this.filter.order,this.filter.search)) }
-  }
-
-  order(orderBy: string, order: string) {
-    this.filter.orderBy = orderBy;
-    this.filter.order = order;
-    this.getPosts()
-  }
-
-  selectedOrder(orderBy: string, order: string) {
-    if (this.filter.orderBy === orderBy && this.filter.order === order) { return true }
-    return false
   }
 
   resetSearch() {
