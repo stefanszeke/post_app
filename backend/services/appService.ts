@@ -6,6 +6,8 @@ import mysql from "mysql2";
 import dotenv from "dotenv";
 dotenv.config();
 import { User } from "../models/user";
+import { UserVotes } from "../models/userVotes";
+import { Vote } from "../models/vote";
 
 export default class AppService {
 
@@ -71,6 +73,32 @@ export default class AppService {
     if (input.title.length > 40) { res.json({message: "Title too long"}); return false };
     if (input.text.length > 250) { res.json({message: "Text too long"}); return false };
     return true;
+  }
+
+  public static getUserVotesAndScore(req: Request, userVotes: UserVotes) {
+    const post_id = req.params.id
+    const vote: Vote = req.body.vote;
+
+    let upvotes:string[] = [...userVotes.upvoted.split(",")];
+    let downvotes:string[] = userVotes.downvoted.split(",");
+    let score: number = 0;
+
+    if(vote === "up") {
+      if(!upvotes.includes(post_id)) { upvotes.push(post_id); score = 1 }
+      else if(upvotes.includes(post_id)) { upvotes.splice(upvotes.indexOf(post_id), 1); score = -1 }
+      if(downvotes.includes(post_id)) { downvotes.splice(downvotes.indexOf(post_id), 1); score += 1 }
+    }
+    
+    
+    if(vote === "down") {
+      if(!downvotes.includes(post_id)) { downvotes.push(post_id); score = -1 }
+      else if(downvotes.includes(post_id)) { downvotes.splice(downvotes.indexOf(post_id), 1); score = + 1 }
+      if(upvotes.includes(post_id)) { upvotes.splice(upvotes.indexOf(post_id), 1); score -= 1 }
+    }
+    let upvoted = upvotes.join(",");
+    let downvoted = downvotes.join(",");
+
+    return { upvoted, downvoted, score };
   }
 
 

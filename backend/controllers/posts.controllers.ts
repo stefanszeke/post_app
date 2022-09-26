@@ -90,32 +90,12 @@ export const deletePost = async (req: Request, res: Response) => {
 export const votePost = async (req: Request, res: Response) => {
   try {
 
-    const post_id = req.params.id
-    const vote: Vote = req.body.vote;
-
-
     const userVotes: UserVotes[] = await Database.useMySql("SELECT upvoted,downvoted FROM users WHERE id = ?", [req.user_id]);
-    console.log(userVotes);
-    let upvotes:string[] = [...userVotes[0].upvoted.split(",")];
-    let downvotes:string[] = userVotes[0].downvoted.split(",");
-    let score: number = 0;
 
-    if(vote === "up") {
-      if(!upvotes.includes(post_id)) { upvotes.push(post_id); score = 1 }
-      else if(upvotes.includes(post_id)) { upvotes.splice(upvotes.indexOf(post_id), 1); score = -1 }
-      if(downvotes.includes(post_id)) { downvotes.splice(downvotes.indexOf(post_id), 1); score += 1 }
-    }
-    
-    
-    if(vote === "down") {
-      if(!downvotes.includes(post_id)) { downvotes.push(post_id); score = -1 }
-      else if(downvotes.includes(post_id)) { downvotes.splice(downvotes.indexOf(post_id), 1); score = + 1 }
-      if(upvotes.includes(post_id)) { upvotes.splice(upvotes.indexOf(post_id), 1); score -= 1 }
-    }
+    let votes: UserVotes = AppService.getUserVotesAndScore(req,userVotes[0]);
 
-    
-    await Database.useMySql("UPDATE posts SET score = score + ? WHERE id = ?", [score, post_id]);
-    await Database.useMySql("UPDATE users SET upvoted = ?, downvoted = ? WHERE id = ?", [upvotes.join(","), downvotes.join(","), req.user_id]);
+    await Database.useMySql("UPDATE posts SET score = score + ? WHERE id = ?", [votes.score, req.params.id]);
+    await Database.useMySql("UPDATE users SET upvoted = ?, downvoted = ? WHERE id = ?", [votes.upvoted, votes.downvoted, req.user_id]);
     
     res.json({message: "Post voted"});
 
