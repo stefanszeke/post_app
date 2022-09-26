@@ -4,23 +4,25 @@ import { Database } from "../database/database";
 import Authentication from "../authentication/authentication";
 import AppService from "../services/appService";
 import { User } from "../models/user";
+import { loginInput, registerInput } from "../models/inputs";
 
 
 export const register = async (req: Request, res: Response) => {
   try{ 
 
     const {name, email, country, password, confirm} = req.body;
+    const registerInput: registerInput = {name, email, country, password, confirm};
 
     // input validation
-    const validation = await AppService.registerValidation(res, {name, email, country, password, confirm});
+    const validation: boolean = await AppService.registerValidation(res, registerInput);
     if(!validation) return;
 
-    // hashing passwordgit a
+    // hashing password
     const salt = bcrypt.genSaltSync(10);
     const hash = bcrypt.hashSync(password, salt);
 
     // insert user into database
-    const user = {name,email,country,password: hash, upvoted: '0', downvoted: '0'};
+    const user: User = {name,email,country,password: hash, upvoted: '0', downvoted: '0'};
     await Database.useMySql("INSERT INTO users SET ?", user);
     res.json({message: "User created"});
 
@@ -30,10 +32,10 @@ export const register = async (req: Request, res: Response) => {
 export const login = async (req: Request, res: Response) => {
   try{ 
     
-    const {email, password} = req.body;
+    const loginInput: loginInput = req.body;
 
     // input validation
-    const user: false | User = await AppService.loginValidation(res, {email, password});
+    const user: false | User = await AppService.loginValidation(res, loginInput);
     if(!user) return;
 
   

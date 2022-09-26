@@ -8,6 +8,7 @@ dotenv.config();
 import { User } from "../models/user";
 import { UserVotes } from "../models/userVotes";
 import { Vote } from "../models/vote";
+import { loginInput, registerInput } from "../models/inputs";
 
 export default class AppService {
 
@@ -34,7 +35,7 @@ export default class AppService {
 
   constructor() {}
 
-  public static async registerValidation(res: Response, input: any) {
+  public static async registerValidation(res: Response, input: registerInput): Promise<boolean> {
     if (!input.name || !input.email || !input.password || !input.confirm || !input.country) { res.json({message: "Please fill all fields"}); return false };
     if (input.name.length < 4) { res.json({message: "Name must be at least 4 characters"}); return false };
     if (input.name.length > 16) { res.json({message: "Name can't be longer than 16 characters"}); return false };
@@ -56,7 +57,7 @@ export default class AppService {
     return true;
   }
 
-  public static async loginValidation(res: Response, input: any): Promise<false | User> {
+  public static async loginValidation(res: Response, input: loginInput): Promise<false | User> {
     if (!input.email || !input.password) { res.json({message: "Please fill all fields"}); return false };
     const user: User[] = await Database.useMySql("SELECT * FROM users WHERE email = ?", [input.email]);
 
