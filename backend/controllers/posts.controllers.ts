@@ -2,16 +2,20 @@ import { Request, Response } from "express";
 import { Database } from "../database/database";
 import AppService from "../services/appService";
 import SqlService from "../services/sqlService";
+import { Post, UserPost } from "../models/post";
+import { UserVotes } from "../models/userVotes";
+import { Vote } from "../models/vote";
 
 export const makePost = async (req: Request, res: Response) => {
   try {
 
-    const {title, text, user_id} = req.body;
+    const {title, text} = req.body;
+    const {user_id} = req;
 
     const validation = await AppService.postValidation(res, req.body)
     if(!validation) return;
 
-    const post = { title, text, user_id, score: 0, timestamp: Date.now()};
+    const post: Post = { title, text, user_id, score: 0, timestamp: Date.now()};
 
     await Database.useMySql("INSERT INTO posts SET ?", post);
     res.json({message: "Post created"});
@@ -25,7 +29,7 @@ export const getPosts = async (req: Request, res: Response) => {
 
     const PageLimit = 5;
 
-    const posts = await Database.useMySql(SqlService.getPosts(req, PageLimit),[PageLimit]);
+    const posts:UserPost[] = await Database.useMySql(SqlService.getPosts(req, PageLimit),[PageLimit]);
   
     res.json(posts);
 
@@ -37,14 +41,14 @@ export const getUserPosts = async (req: Request, res: Response) => {
   try {
 
     if(req.query.id) {
-      const post = await Database.useMySql(SqlService.getUsersPostsById(), [req.body.user_id, req.query.id]);
+      const post:UserPost[] = await Database.useMySql(SqlService.getUsersPostsById(), [req.user_id, req.query.id]);
       
       res.json(post[0]);
     }
 
     else {
       const PageLimit = 5;
-      const posts = await Database.useMySql(SqlService.getUserPosts(req, PageLimit), [req.body.user_id, PageLimit]);
+      const posts:UserPost[] = await Database.useMySql(SqlService.getUserPosts(req, PageLimit), [req.user_id, PageLimit]);
       
       res.json(posts);
     }
@@ -56,15 +60,15 @@ export const getUserPosts = async (req: Request, res: Response) => {
 export const updatePost = async (req: Request, res: Response) => {
   try {
 
-    const {title, text, user_id} = req.body;
+    const {title, text} = req.body;
     const id = req.params.id;
 
     const validation = await AppService.postValidation(res, req.body)
     if(!validation) return;
 
-    const post = { title, text };
+    const update = { title, text };
 
-    await Database.useMySql("UPDATE posts SET ? WHERE id = ? and user_id = ?", [post, id, user_id]);
+    await Database.useMySql("UPDATE posts SET ? WHERE id = ? and user_id = ?", [update, id, req.user_id]);
     res.json({message: "Post updated"});
 
   } catch (err) { console.log(err); res.status(500).json({message: "Something went wrong"}) }
@@ -75,9 +79,8 @@ export const deletePost = async (req: Request, res: Response) => {
   try {
 
     const id = req.params.id;
-    const user_id = req.body.user_id;
 
-    await Database.useMySql("DELETE FROM posts WHERE id = ? and user_id = ?", [id, user_id]);
+    await Database.useMySql("DELETE FROM posts WHERE id = ? and user_id = ?", [id, req.user_id]);
     res.json({message: "Post deleted"});
 
   } catch (err) { console.log(err); res.status(500).json({message: "Something went wrong"}) }
@@ -88,13 +91,14 @@ export const votePost = async (req: Request, res: Response) => {
   try {
 
     const post_id = req.params.id
-    const {user_id, vote } = req.body;
+    const vote: Vote = req.body.vote;
 
-    const userVotes = await Database.useMySql("SELECT upvoted,downvoted FROM users WHERE id = ?", [user_id]);
-    let test:string[] = []
+
+    const userVotes: UserVotes[] = await Database.useMySql("SELECT upvoted,downvoted FROM users WHERE id = ?", [req.user_id]);
+    console.log(userVotes);
     let upvotes:string[] = [...userVotes[0].upvoted.split(",")];
-    let downvotes = userVotes[0].downvoted.split(",");
-    let score = 0;
+    let downvotes:string[] = userVotes[0].downvoted.split(",");
+    let score: number = 0;
 
     if(vote === "up") {
       if(!upvotes.includes(post_id)) { upvotes.push(post_id); score = 1 }
@@ -111,7 +115,7 @@ export const votePost = async (req: Request, res: Response) => {
 
     
     await Database.useMySql("UPDATE posts SET score = score + ? WHERE id = ?", [score, post_id]);
-    await Database.useMySql("UPDATE users SET upvoted = ?, downvoted = ? WHERE id = ?", [upvotes.join(","), downvotes.join(","), user_id]);
+    await Database.useMySql("UPDATE users SET upvoted = ?, downvoted = ? WHERE id = ?", [upvotes.join(","), downvotes.join(","), req.user_id]);
     
     res.json({message: "Post voted"});
 

@@ -7,7 +7,7 @@ export class Database {
   public readonly connection: mysql.Pool;
 
   private constructor() {
-    this.connection = mysql.createPool(AppService.getConnection());
+    this.connection = mysql.createPool(AppService.getConnection()!);
   }
 
   public static getInstance(): Database {

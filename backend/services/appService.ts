@@ -2,12 +2,14 @@ import { Database } from "../database/database";
 import { Response, Request } from "express";
 import bcrypt from "bcrypt";
 import { COUNTRIES } from "./countries";
+import mysql from "mysql2";
 import dotenv from "dotenv";
 dotenv.config();
+import { User } from "../models/user";
 
 export default class AppService {
 
-  private static dockerConnection: any = {
+  private static dockerConnection: mysql.ConnectionOptions = {
     host: 'localhost',
     database: 'post_app',
     user: 'admin',
@@ -18,7 +20,7 @@ export default class AppService {
     port: 3398
   }
 
-  private static mysqlConnection: any = {
+  private static mysqlConnection: mysql.ConnectionOptions = {
     host: process.env.HOST,
     database: process.env.DATABASE,
     user: process.env.USER,
@@ -52,9 +54,9 @@ export default class AppService {
     return true;
   }
 
-  public static async loginValidation(res: Response, input: any) {
+  public static async loginValidation(res: Response, input: any): Promise<false | User> {
     if (!input.email || !input.password) { res.json({message: "Please fill all fields"}); return false };
-    const user = await Database.useMySql("SELECT * FROM users WHERE email = ?", [input.email]);
+    const user: User[] = await Database.useMySql("SELECT * FROM users WHERE email = ?", [input.email]);
 
     if (!user[0]) { res.json({message: "User not found"}); return false };
 
@@ -64,7 +66,7 @@ export default class AppService {
     return user[0];
   }
 
-  public static async postValidation(res: Response, input: any) {
+  public static async postValidation(res: Response, input: any): Promise<boolean> {
     if (!input.title || !input.text) { res.json({message: "Please fill all the fields"}); return false };
     if (input.title.length > 40) { res.json({message: "Title too long"}); return false };
     if (input.text.length > 250) { res.json({message: "Text too long"}); return false };
@@ -73,12 +75,12 @@ export default class AppService {
 
 
 
-  public static getConnection() {
+  public static getConnection(): mysql.ConnectionOptions | undefined {
     if(process.env.NODE_ENV === 'development') return AppService.dockerConnection;
     if(process.env.NODE_ENV === 'production') return AppService.mysqlConnection;
   }
 
-  public static serverLog() {
+  public static serverLog(): void {
     if(process.env.NODE_ENV === 'development') console.log('\x1b[32m%s\x1b[0m', ` ⇒ App listening on Port ${process.env.PORT || 3700}, env: ${process.env.NODE_ENV}`);
     if(process.env.NODE_ENV === 'production') console.log(`App listening on Port ${process.env.PORT || 3700}, env: ${process.env.NODE_ENV}`);
   }

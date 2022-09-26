@@ -3,6 +3,7 @@ import bcrypt from "bcrypt";
 import { Database } from "../database/database";
 import Authentication from "../authentication/authentication";
 import AppService from "../services/appService";
+import { User } from "../models/user";
 
 
 export const register = async (req: Request, res: Response) => {
@@ -32,23 +33,24 @@ export const login = async (req: Request, res: Response) => {
     const {email, password} = req.body;
 
     // input validation
-    const user = await AppService.loginValidation(res, {email, password});
+    const user: false | User = await AppService.loginValidation(res, {email, password});
     if(!user) return;
-    
+
+  
     // generate and send token
+    if(user) {
     const token = Authentication.generateToken(user);
     res.cookie("token", token, {maxAge: 3600000, sameSite: 'none', secure: process.env.NODE_ENV === 'production'});
     res.cookie("name", user.name, {maxAge: 3600000, sameSite: 'none', secure: process.env.NODE_ENV === 'production'});
     res.json({message: "User logged in"});
-
+    }
   } catch (err) { console.log(err); res.status(500).json({message: "Something went wrong"}) }
 }
 
 export const sendVotes = async (req: Request, res: Response) => {
   try{ 
 
-    const {user_id} = req.body;
-    const userVotes = await Database.useMySql("SELECT upvoted,downvoted FROM users WHERE id = ?", [user_id]);
+    const userVotes = await Database.useMySql("SELECT upvoted,downvoted FROM users WHERE id = ?", [req.user_id]);
     res.json({upvoted: userVotes[0].upvoted.split(","), downvoted: userVotes[0].downvoted.split(",")} );
 
  } catch (err) { console.log(err); res.status(500).json({message: "Something went wrong"}) }

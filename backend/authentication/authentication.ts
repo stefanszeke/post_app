@@ -2,6 +2,7 @@ import jwt from 'jsonwebtoken';
 import { Request, Response, NextFunction } from 'express';
 
 
+
 export default class Authentication {
   public static generateToken = (user: any) => {
     const payload = { id: user.id, name: user.name };
@@ -24,7 +25,7 @@ export default class Authentication {
         // Token is invalid:
         if (err) { res.status(401).send({ message: 'Invalid Token' }) }
         // Token is valid:
-        else { req.body.user_id = decode.id; next()}
+        else { req.user_id = decode.id; next()}
       });
 
     } else { res.status(401).send({ message: 'No Token' }) }
