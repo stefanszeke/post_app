@@ -38,7 +38,7 @@ export default class SqlService {
       LIMIT ${page*pageLimit},?`
   }
 
-  public static getUsersPostsById() {
+  public static getUsersPostsById(): string {
     return `SELECT ${this.postWithUsersInfo}
       FROM posts 
       JOIN users ON (posts.user_id = users.id) 

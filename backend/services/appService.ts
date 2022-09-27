@@ -69,14 +69,14 @@ export default class AppService {
     return user[0];
   }
 
-  public static async postValidation(res: Response, input: any): Promise<boolean> {
+  public static async postValidation(res: Response, input: {title: string, text: string}): Promise<boolean> {
     if (!input.title || !input.text) { res.json({message: "Please fill all the fields"}); return false };
     if (input.title.length > 40) { res.json({message: "Title too long"}); return false };
     if (input.text.length > 250) { res.json({message: "Text too long"}); return false };
     return true;
   }
 
-  public static getUserVotesAndScore(req: Request, userVotes: UserVotes) {
+  public static updateUserVote(req: Request, userVotes: UserVotes): UserVotes {
     const post_id = req.params.id
     const vote: Vote = req.body.vote;
 

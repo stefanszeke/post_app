@@ -9,11 +9,13 @@ import { Vote } from "../models/vote";
 export const makePost = async (req: Request, res: Response) => {
   try {
 
-    const {title, text} = req.body;
+    let {title, text} = req.body;
     const {user_id} = req;
 
     const validation = await AppService.postValidation(res, req.body)
     if(!validation) return;
+
+
 
     const post: Post = { title, text, user_id, score: 0, timestamp: Date.now()};
 
@@ -92,7 +94,7 @@ export const votePost = async (req: Request, res: Response) => {
 
     const userVotes: UserVotes[] = await Database.useMySql("SELECT upvoted,downvoted FROM users WHERE id = ?", [req.user_id]);
 
-    let votes: UserVotes = AppService.getUserVotesAndScore(req,userVotes[0]);
+    let votes: UserVotes = AppService.updateUserVote(req,userVotes[0]);
 
     await Database.useMySql("UPDATE posts SET score = score + ? WHERE id = ?", [votes.score, req.params.id]);
     await Database.useMySql("UPDATE users SET upvoted = ?, downvoted = ? WHERE id = ?", [votes.upvoted, votes.downvoted, req.user_id]);
