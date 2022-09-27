@@ -31,7 +31,7 @@ export const getPosts = async (req: Request, res: Response) => {
 
     const PageLimit = 5;
 
-    const posts:UserPost[] = await Database.useMySql(SqlService.getPosts(req, PageLimit),[PageLimit]);
+    const posts:UserPost[] = await Database.useMySql<UserPost[]>(SqlService.getPosts(req, PageLimit),[PageLimit]);
   
     res.json(posts);
 
@@ -43,14 +43,14 @@ export const getUserPosts = async (req: Request, res: Response) => {
   try {
 
     if(req.query.id) {
-      const post:UserPost[] = await Database.useMySql(SqlService.getUsersPostsById(), [req.user_id, req.query.id]);
+      const post:UserPost[] = await Database.useMySql<UserPost[]>(SqlService.getUsersPostsById(), [req.user_id, req.query.id]);
       
       res.json(post[0]);
     }
 
     else {
       const PageLimit = 5;
-      const posts:UserPost[] = await Database.useMySql(SqlService.getUserPosts(req, PageLimit), [req.user_id, PageLimit]);
+      const posts:UserPost[] = await Database.useMySql<UserPost[]>(SqlService.getUserPosts(req, PageLimit), [req.user_id, PageLimit]);
       
       res.json(posts);
     }

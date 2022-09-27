@@ -40,13 +40,13 @@ export default class AppService {
     if (input.name.length < 4) { res.json({message: "Name must be at least 4 characters"}); return false };
     if (input.name.length > 16) { res.json({message: "Name can't be longer than 16 characters"}); return false };
 
-    const userName = await Database.useMySql(`SELECT name FROM users WHERE name = ?`, [input.name]);
+    const userName = await Database.useMySql<string>(`SELECT name FROM users WHERE name = ?`, [input.name]);
     if (userName[0])  {res.json({message: "User already exists"}); return false };
 
     let emailRegex: RegExp = /[\w\.\-\%\!]+@\w+\.\w{2,}/;
     if (!emailRegex.test(input.email)) { res.json({message: "Invalid email"}); return false };
 
-    const userMail = await Database.useMySql("SELECT * FROM users WHERE email = ?", [input.email]);
+    const userMail = await Database.useMySql<string>("SELECT * FROM users WHERE email = ?", [input.email]);
     if (userMail[0]) { res.json({message: "Email already exists"}); return false };
 
     if(input.password.length < 4) { res.json({message: "Password must be at least 4 characters"}); return false };
@@ -59,7 +59,7 @@ export default class AppService {
 
   public static async loginValidation(res: Response, input: loginInput): Promise<false | User> {
     if (!input.email || !input.password) { res.json({message: "Please fill all fields"}); return false };
-    const user: User[] = await Database.useMySql("SELECT * FROM users WHERE email = ?", [input.email]);
+    const user: User[] = await Database.useMySql<User[]>("SELECT * FROM users WHERE email = ?", [input.email]);
 
     if (!user[0]) { res.json({message: "User not found"}); return false };
 

@@ -17,7 +17,7 @@ export class Database {
     return Database.instance;
   }
 
-  public static async useMySql(sql: string, options: any = []): Promise<any> {
+  public static async useMySql<T>(sql: string, options: any = []): Promise<T> {
     return new Promise<any>((resolve, reject) => {
       Database.getInstance().connection.query(sql, options, (error, result) => {
         if (error) reject(console.log(error))

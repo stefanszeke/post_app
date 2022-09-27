@@ -5,6 +5,7 @@ import Authentication from "../authentication/authentication";
 import AppService from "../services/appService";
 import { User } from "../models/user";
 import { loginInput, registerInput } from "../models/inputs";
+import { UserVotes } from "../models/userVotes";
 
 
 export const register = async (req: Request, res: Response) => {
@@ -52,7 +53,7 @@ export const login = async (req: Request, res: Response) => {
 export const sendVotes = async (req: Request, res: Response) => {
   try{ 
 
-    const userVotes = await Database.useMySql("SELECT upvoted,downvoted FROM users WHERE id = ?", [req.user_id]);
+    const userVotes: UserVotes[] = await Database.useMySql<UserVotes[]>("SELECT upvoted,downvoted FROM users WHERE id = ?", [req.user_id]);
     res.json({upvoted: userVotes[0].upvoted.split(","), downvoted: userVotes[0].downvoted.split(",")} );
 
  } catch (err) { console.log(err); res.status(500).json({message: "Something went wrong"}) }
